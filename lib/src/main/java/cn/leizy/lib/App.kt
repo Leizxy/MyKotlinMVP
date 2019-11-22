@@ -12,11 +12,13 @@ import cn.leizy.lib.http.HttpProxy
  * @description
  */
 class App : Application(), Application.ActivityLifecycleCallbacks {
+    private var currentActivity: Activity? = null
+
     companion object {
         private var instance: App? = null
 
-        fun getInstance(): App? {
-            return instance
+        fun getInstance(): App {
+            return instance!!
         }
     }
 
@@ -25,6 +27,10 @@ class App : Application(), Application.ActivityLifecycleCallbacks {
         instance = this
         registerActivityLifecycleCallbacks(this)
         HttpProxy.init(this)
+    }
+
+    fun getCurrentStr(): String {
+        return currentActivity!!.javaClass.simpleName
     }
 
     override fun onActivityPaused(p0: Activity?) {
@@ -36,6 +42,7 @@ class App : Application(), Application.ActivityLifecycleCallbacks {
     }
 
     override fun onActivityStarted(p0: Activity?) {
+        currentActivity = p0
         Log.i("App", "onActivityStarted: " + p0?.javaClass!!.simpleName)
     }
 
@@ -54,5 +61,4 @@ class App : Application(), Application.ActivityLifecycleCallbacks {
     override fun onActivityCreated(p0: Activity?, p1: Bundle?) {
         Log.i("App", "onActivityCreated: " + p0?.javaClass!!.simpleName)
     }
-
 }

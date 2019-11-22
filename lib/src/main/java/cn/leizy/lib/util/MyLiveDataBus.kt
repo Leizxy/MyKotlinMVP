@@ -48,6 +48,12 @@ class MyLiveDataBus private constructor() {
         }
     }
 
+    fun removeKey(key: String){
+        if(bus.containsKey(key)){
+            bus.remove(key)
+        }
+    }
+
     class MyMutableLiveData<T> : MutableLiveData<T>() {
         override fun observe(owner: LifecycleOwner, observer: Observer<in T>) {
             super.observe(owner, observer)

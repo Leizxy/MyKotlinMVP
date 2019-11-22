@@ -80,7 +80,10 @@ class JsonConvert<T>() : Converter<T> {
                 response.close()
 //                val code = httpResponse.errorCode
                 if (!httpResponse.isSuccess) {
-                    MyLiveDataBus.instance.post(IHttp.HTTP_TOAST, httpResponse.message)
+                    MyLiveDataBus.instance.post(
+                        App.getInstance().getCurrentStr() + IHttp.HTTP_TOAST,
+                        httpResponse.message
+                    )
                 }
                 return httpResponse as T
             } else {
@@ -104,7 +107,10 @@ class JsonConvert<T>() : Converter<T> {
             val httpResponse = Convert.fromJson<HttpResponse<*>>(jsonReader, rawType)
             response.close()
             if (!httpResponse.isSuccess) {
-                MyLiveDataBus.instance.post(IHttp.HTTP_TOAST, httpResponse.message)
+                MyLiveDataBus.instance.post(
+                    App.getInstance().getCurrentStr() + IHttp.HTTP_TOAST,
+                    httpResponse.message
+                )
             }
             return httpResponse as T
         }

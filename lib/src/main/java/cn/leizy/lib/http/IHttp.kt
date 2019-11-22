@@ -22,7 +22,7 @@ interface IHttp {
             get() = LOGIN_HOST + LOGIN
 
         val HTTP_TOAST: String
-            get() = "http_toast"
+            get() = "_http_toast"
     }
 
     fun initHttp(context: Application)

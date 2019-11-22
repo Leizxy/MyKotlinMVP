@@ -3,8 +3,13 @@ package cn.leizy.lib.base
 import android.os.Bundle
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
 import butterknife.ButterKnife
 import butterknife.Unbinder
+import cn.leizy.lib.App
+import cn.leizy.lib.http.IHttp
+import cn.leizy.lib.util.MyLiveDataBus
+import cn.leizy.lib.util.ToastUtil
 
 /**
  * @author Created by wulei
@@ -23,9 +28,14 @@ abstract class BaseActivity : AppCompatActivity() {
 
     abstract fun getLayoutId(): Int
 
+
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
         initViews()
+        MyLiveDataBus.instance.with(
+            this.javaClass.simpleName + IHttp.HTTP_TOAST,
+            String::class.java
+        ).observe(this, Observer { toast(it as String) })
     }
 
     abstract fun initViews()
@@ -33,6 +43,11 @@ abstract class BaseActivity : AppCompatActivity() {
     override fun onDestroy() {
         super.onDestroy()
         unbinder.unbind()
+        MyLiveDataBus.instance.removeKey(this.javaClass.simpleName + IHttp.HTTP_TOAST)
+    }
+
+    fun toast(string: String) {
+        ToastUtil.showToast(this, string)
     }
 
 }
