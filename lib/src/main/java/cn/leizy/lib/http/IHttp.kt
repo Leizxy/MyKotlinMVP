@@ -1,7 +1,7 @@
 package cn.leizy.lib.http
 
 import android.app.Application
-import cn.leizy.lib.http.okgo.SimpleCallback
+import cn.leizy.lib.http.okgo.NetCallback
 
 /**
  * @author Created by wulei
@@ -27,9 +27,9 @@ interface IHttp {
 
     fun initHttp(context: Application)
 
-    fun <T> get(url: String, params: Map<String, Any>?, callback: SimpleCallback<T>)
+    fun <T> get(url: String, params: Map<String, Any>?, callback: NetCallback<T>)
 
-    fun <T> post(url: String, tag: Any, params: Map<String, Any>?, callback: SimpleCallback<T>)
+    fun <T> post(url: String, tag: Any, params: Map<String, Any>?, callback: NetCallback<T>)
 
     fun cancel(tag: Any)
 

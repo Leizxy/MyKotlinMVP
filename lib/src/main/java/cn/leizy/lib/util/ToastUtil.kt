@@ -12,29 +12,44 @@ import android.widget.Toast
  * @description
  */
 class ToastUtil {
+    init {
+        throw UnsupportedOperationException("ToastUtil can not be Instantiate!")
+    }
+
     companion object {
-        fun showToast(context: Context, string: String) {
-            if (!TextUtils.isEmpty(string)) {
-                Toast.makeText(context, string, Toast.LENGTH_SHORT).show()
+        private var isShow: Boolean = true
+        private var toast: Toast? = null
+
+        /**
+         * 控制显示toast与否
+         */
+        fun controlShow(show: Boolean) {
+            isShow = show
+        }
+
+        /**
+         * 取消显示
+         */
+        fun cancelToast() {
+            if (isShow) {
+                toast!!.cancel()
             }
         }
 
+        fun showToast(context: Context, string: String) {
+            if (!isShow && TextUtils.isEmpty(string)) {
+                return
+            }
+            when (toast) {
+                null -> toast = Toast.makeText(context, string, Toast.LENGTH_SHORT)
+                else -> toast!!.setText(string)
+            }
+            toast!!.show()
+        }
+
         fun showToast(context: Context, resId: Int) {
-            Toast.makeText(context, context.resources.getText(resId), Toast.LENGTH_SHORT).show()
+            showToast(context,context.resources.getString(resId))
         }
 
-        fun showToastInMainThread(context: Activity, string: String) {
-            context.runOnUiThread { showToast(context, string) }
-        }
-
-        fun showToastInMainThread(context: Activity, resId: Int) {
-            context.runOnUiThread { showToast(context, resId) }
-        }
-
-        fun showToastWithLooper(context: Context, string: String) {
-            Looper.prepare()
-            showToast(context, string)
-            Looper.loop()
-        }
     }
 }

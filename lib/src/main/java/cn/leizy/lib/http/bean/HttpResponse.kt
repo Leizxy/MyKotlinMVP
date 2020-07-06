@@ -1,4 +1,4 @@
-package cn.leizy.lib.model
+package cn.leizy.lib.http.bean
 
 /**
  * @author Created by wulei

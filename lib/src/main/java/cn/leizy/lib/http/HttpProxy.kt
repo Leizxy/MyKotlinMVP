@@ -2,7 +2,7 @@ package cn.leizy.lib.http
 
 import android.app.Application
 import cn.leizy.lib.http.okgo.OkGoHttp
-import cn.leizy.lib.http.okgo.SimpleCallback
+import cn.leizy.lib.http.okgo.NetCallback
 import java.lang.StringBuilder
 
 /**
@@ -17,11 +17,11 @@ class HttpProxy private constructor(val iHttp: IHttp) : IHttp {
         iHttp.initHttp(context)
     }
 
-    override fun <T> get(url: String, params: Map<String, Any>?, callback: SimpleCallback<T>) {
+    override fun <T> get(url: String, params: Map<String, Any>?, callback: NetCallback<T>) {
         iHttp.get(url, params, callback)
     }
 
-    override fun <T> post(url: String, tag: Any, params: Map<String, Any>?, callback: SimpleCallback<T>) {
+    override fun <T> post(url: String, tag: Any, params: Map<String, Any>?, callback: NetCallback<T>) {
         iHttp.post(url, tag, params, callback)
     }
 

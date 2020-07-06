@@ -9,10 +9,10 @@ import cn.leizy.lib.util.MyLiveDataBus
  * @date 2019-11-11
  * @description
  */
-abstract class SimpleCallback<T> {
+abstract class NetCallback<T> {
     fun onStart() {}
 
-    abstract fun onSuccess(t: T)
+    abstract fun onSuccess(body : T)
 
     fun onFail(t: Throwable) {
         MyLiveDataBus.instance.post(App.getInstance().getCurrentStr() + IHttp.HTTP_TOAST, t.message)

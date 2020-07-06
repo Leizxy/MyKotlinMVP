@@ -4,9 +4,8 @@ import cn.leizy.lib.App
 import cn.leizy.lib.http.IHttp
 import com.google.gson.stream.JsonReader
 import com.lzy.okgo.convert.Converter
-import cn.leizy.lib.model.HttpResponse
+import cn.leizy.lib.http.bean.HttpResponse
 import cn.leizy.lib.util.MyLiveDataBus
-import cn.leizy.lib.util.ToastUtil
 import okhttp3.Response
 import org.json.JSONArray
 import org.json.JSONObject
@@ -58,40 +57,6 @@ class JsonConvert<T>() : Converter<T> {
         return t
     }
 
-    private fun parseParameterizedType(response: Response, type: ParameterizedType): T? {
-        if (type == null) return null
-        val body = response.body()
-        if (body == null) return null
-        val jsonReader = JsonReader(body.charStream())
-
-        //泛型实际类型
-        val rawType = type.rawType
-        //泛型参数
-        val typeArgument = type.actualTypeArguments[0]
-        if (rawType != HttpResponse::class.java) {
-            val t: T = Convert.fromJson(jsonReader, type)
-            response.close()
-            return t
-        } else {
-            //TODO 按项目需要重写
-            if (response.code() == 200) {
-                val httpResponse =
-                    Convert.fromJson<HttpResponse<*>>(jsonReader, type)
-                response.close()
-//                val code = httpResponse.errorCode
-                if (!httpResponse.isSuccess) {
-                    MyLiveDataBus.instance.post(
-                        App.getInstance().getCurrentStr() + IHttp.HTTP_TOAST,
-                        httpResponse.message
-                    )
-                }
-                return httpResponse as T
-            } else {
-                return null
-            }
-        }
-    }
-
     private fun parseClass(response: Response, rawType: Class<T>?): T? {
         if (rawType == null)
             return null
@@ -113,6 +78,41 @@ class JsonConvert<T>() : Converter<T> {
                 )
             }
             return httpResponse as T
+        }
+    }
+
+    private fun parseParameterizedType(response: Response, type: ParameterizedType): T? {
+        if (type == null) return null
+        val body = response.body()
+        if (body == null) return null
+        val jsonReader = JsonReader(body.charStream())
+
+        //泛型实际类型
+        val rawType = type.rawType
+        //泛型参数
+        val typeArgument = type.actualTypeArguments[0]
+        if (rawType != HttpResponse::class.java) {
+            val t: T = Convert.fromJson(jsonReader, type)
+            response.close()
+            return t
+        } else {
+            //TODO 按项目需要重写
+            when (response.code()) {
+                200 -> {
+                    val httpResponse =
+                        Convert.fromJson<HttpResponse<*>>(jsonReader, type)
+                    response.close()
+                    if (!httpResponse.isSuccess) {
+                        MyLiveDataBus.instance.post(
+                            App.getInstance().getCurrentStr() + IHttp.HTTP_TOAST,
+                            httpResponse.message
+                        )
+                    }
+                    return httpResponse as T
+                }
+                else -> return null
+            }
+
         }
     }
 }

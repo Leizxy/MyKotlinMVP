@@ -45,7 +45,7 @@ class OkGoHttp : IHttp {
 //                .addCommonHeaders(headers)
     }
 
-    override fun <T> get(url: String, params: Map<String, Any>?, callback: SimpleCallback<T>) {
+    override fun <T> get(url: String, params: Map<String, Any>?, callback: NetCallback<T>) {
         val type = callback.javaClass.genericSuperclass
         val type1 = (type as ParameterizedType).actualTypeArguments[0]
         val stringBuilder = StringBuilder(url)
@@ -90,7 +90,7 @@ class OkGoHttp : IHttp {
 
     }
 
-    override fun <T> post(url: String, tag: Any, params: Map<String, Any>?, callback: SimpleCallback<T>) {
+    override fun <T> post(url: String, tag: Any, params: Map<String, Any>?, callback: NetCallback<T>) {
         val type = callback.javaClass.genericSuperclass
         val type1 = (type as ParameterizedType).actualTypeArguments[0]
         val postRequest: PostRequest<T> = OkGo.post<T>(url).tag(tag)
