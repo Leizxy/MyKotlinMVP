@@ -16,7 +16,6 @@ import butterknife.Unbinder
  * @description
  */
 abstract class BaseFragment : Fragment() {
-    protected var rootView: View? = null
     private var isViewCreated: Boolean = false
     private var currentVisibleState: Boolean = false
     private var isFirstVisible: Boolean = true
@@ -31,16 +30,16 @@ abstract class BaseFragment : Fragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        rootView = inflater.inflate(getLayoutId(), container, false)
+        val rootView:View = inflater.inflate(getLayoutId(), container, false)
         attachPresenter()
         isViewCreated = true
         if (!isHidden && userVisibleHint) {
             dispatchVisibleState(true)
         }
         unbinder = ButterKnife.bind(this, rootView!!)
-        initView(rootView!!)
+        initView(rootView)
         //解决点击穿越问题
-        rootView!!.isClickable = true
+        rootView.isClickable = true
         return rootView
     }
 
