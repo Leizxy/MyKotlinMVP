@@ -5,6 +5,9 @@ import android.app.Application
 import android.os.Bundle
 import android.util.Log
 import cn.leizy.lib.http.HttpProxy
+import cn.leizy.lib.tasks.InitHttp
+import com.scwlyd.tmslib.lauch.TaskDispatcher
+import com.scwlyd.tmslib.lauch.Timing
 
 /**
  * @author Created by wulei
@@ -25,8 +28,16 @@ class App : Application(), Application.ActivityLifecycleCallbacks {
     override fun onCreate() {
         super.onCreate()
         instance = this
-        registerActivityLifecycleCallbacks(this)
-        HttpProxy.init(this)
+        if (BuildConfig.DEBUG) {
+            registerActivityLifecycleCallbacks(this)
+        }
+        Timing.startRecord()
+        TaskDispatcher.init(this)
+        val dispatcher = TaskDispatcher.createInstance()
+        dispatcher.addTask(InitHttp())
+            .start()
+        dispatcher.await()
+        Timing.endRecord("App init")
     }
 
     fun getCurrentStr(): String {

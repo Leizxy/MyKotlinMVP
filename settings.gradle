@@ -1,1 +1,2 @@
+include ':launch'
 include ':app', ':lib'
