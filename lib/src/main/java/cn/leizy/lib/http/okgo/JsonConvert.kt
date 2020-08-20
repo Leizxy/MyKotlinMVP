@@ -76,6 +76,7 @@ class JsonConvert<T>() : Converter<T> {
                     App.getInstance().getCurrentStr() + IHttp.HTTP_TOAST,
                     httpResponse.message
                 )
+                App.getInstance().toast(httpResponse.message)
             }
             return httpResponse as T
         }

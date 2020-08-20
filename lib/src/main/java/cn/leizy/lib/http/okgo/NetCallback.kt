@@ -15,7 +15,8 @@ abstract class NetCallback<T> {
     abstract fun onSuccess(body : T)
 
     fun onFail(t: Throwable) {
-        MyLiveDataBus.instance.post(App.getInstance().getCurrentStr() + IHttp.HTTP_TOAST, t.message)
+//        MyLiveDataBus.instance.post(App.getInstance().getCurrentStr() + IHttp.HTTP_TOAST, t.message)
+        App.getInstance().toast(t.message)
     }
 
     fun onFinish() {}

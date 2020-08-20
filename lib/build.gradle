@@ -47,9 +47,6 @@ dependencies {
     implementation rootProject.ext.dependencies.mmkv
     implementation rootProject.ext.dependencies.immersionbar
     implementation rootProject.ext.dependencies.recyclerView
-//    implementation 'com.squareup.retrofit2:retrofit:2.1.0'
-//    implementation 'com.squareup.retrofit2:converter-gson:2.1.0'
-//    implementation 'com.squareup.retrofit2:adapter-rxjava:2.1.0'
     implementation rootProject.ext.dependencies.butterknife
     annotationProcessor rootProject.ext.dependencies.butterknife_compliler
 }

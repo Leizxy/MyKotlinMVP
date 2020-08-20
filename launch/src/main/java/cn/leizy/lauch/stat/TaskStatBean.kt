@@ -1,4 +1,4 @@
-package com.scwlyd.tmslib.lauch.stat
+package cn.leizy.lauch.stat
 
 /**
  * @author Created by wulei

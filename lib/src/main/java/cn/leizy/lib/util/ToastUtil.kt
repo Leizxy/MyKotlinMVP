@@ -1,10 +1,12 @@
 package cn.leizy.lib.util
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.os.Looper
 import android.text.TextUtils
 import android.widget.Toast
+import androidx.annotation.IdRes
 
 /**
  * @author Created by wulei
@@ -36,7 +38,7 @@ class ToastUtil {
             }
         }
 
-        fun showToast(context: Context, string: String) {
+        fun showToast(context: Context, string: String?) {
             if (!isShow && TextUtils.isEmpty(string)) {
                 return
             }
@@ -47,8 +49,9 @@ class ToastUtil {
             toast!!.show()
         }
 
-        fun showToast(context: Context, resId: Int) {
-            showToast(context,context.resources.getString(resId))
+        @SuppressLint("ResourceType")
+        fun showToast(context: Context, @IdRes resId: Int) {
+            showToast(context, context.resources.getString(resId))
         }
 
     }

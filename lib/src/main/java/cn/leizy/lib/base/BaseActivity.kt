@@ -2,6 +2,7 @@ package cn.leizy.lib.base
 
 import android.os.Bundle
 import android.view.WindowManager
+import androidx.annotation.IdRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import butterknife.ButterKnife
@@ -50,4 +51,7 @@ abstract class BaseActivity : AppCompatActivity() {
         ToastUtil.showToast(this, string)
     }
 
+    fun toast(@IdRes idRes: Int) {
+        ToastUtil.showToast(this, idRes)
+    }
 }

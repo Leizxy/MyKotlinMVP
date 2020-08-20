@@ -7,16 +7,6 @@ package cn.leizy.lib.base
  */
 interface IView {
     /**
-     * @param key 对应请求
-     * @param obj 对应成功后返回的对象
-     */
-//    fun onSuccess(key: Int, obj: Any)
-    /**
-     * @param msg 请求错误的返回结果
-     */
-    fun onError(msg: String)
-
-    /**
      * @param key 请求错误的返回结果
      * @see cn.leizy.lib.http.HttpKeys
      * @return 返回请求的参数

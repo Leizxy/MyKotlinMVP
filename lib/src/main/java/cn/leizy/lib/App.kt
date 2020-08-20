@@ -4,9 +4,10 @@ import android.app.Activity
 import android.app.Application
 import android.os.Bundle
 import android.util.Log
+import cn.leizy.lauch.TaskDispatcher
 import cn.leizy.lib.http.HttpProxy
+import cn.leizy.lib.util.ToastUtil
 import cn.leizy.lib.tasks.InitHttp
-import com.scwlyd.tmslib.lauch.TaskDispatcher
 import com.scwlyd.tmslib.lauch.Timing
 
 /**
@@ -38,6 +39,10 @@ class App : Application(), Application.ActivityLifecycleCallbacks {
             .start()
         dispatcher.await()
         Timing.endRecord("App init")
+    }
+
+    fun toast(str: String?) {
+        ToastUtil.showToast(this, str)
     }
 
     fun getCurrentStr(): String {

@@ -1,4 +1,4 @@
-package com.scwlyd.tmslib.lauch
+package cn.leizy.lauch
 
 import android.annotation.SuppressLint
 import android.app.ActivityManager
@@ -46,7 +46,7 @@ object Util {
     }
 
     private val curProcessNameFromProc: String?
-        private get() {
+        get() {
             var cmdLineReader: BufferedReader? = null
             try {
                 cmdLineReader = BufferedReader(InputStreamReader(FileInputStream("/proc/" + android.os.Process.myPid() + "/cmdline"), "iso-8859-1"))

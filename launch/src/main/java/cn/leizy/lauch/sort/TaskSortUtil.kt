@@ -1,10 +1,10 @@
-package com.scwlyd.tmslib.lauch.sort
+package cn.leizy.lauch.sort
 
 import android.annotation.SuppressLint
 import android.util.ArraySet
 import androidx.annotation.NonNull
-import com.scwlyd.tmslib.lauch.DispatcherLog
-import com.scwlyd.tmslib.lauch.task.Task
+import cn.leizy.lauch.DispatcherLog
+import cn.leizy.lauch.task.Task
 import java.util.*
 
 /**

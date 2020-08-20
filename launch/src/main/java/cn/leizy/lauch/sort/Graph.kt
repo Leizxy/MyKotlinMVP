@@ -1,4 +1,4 @@
-package com.scwlyd.tmslib.lauch.sort
+package cn.leizy.lauch.sort
 
 import java.util.*
 
@@ -46,10 +46,10 @@ class Graph constructor(private val verticeCount: Int) {
         var cnt = 0
         val topOrder: Vector<Int> = Vector()
         while (!queue.isEmpty()) {
-            val u = queue.poll()
+            val u: Int? = queue.poll()
             topOrder.add(u)
             //找到该点（入度为0）的所有邻接点
-            for (node in mAdj[u]!!) {
+            for (node in mAdj[u!!]!!) {
                 //把这个点的入度减1，如果入度变成了0，那么添加到入度0的队列里
                 if (--indegree[node] == 0) {
                     queue.add(node)
