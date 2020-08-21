@@ -11,6 +11,7 @@ import cn.leizy.lib.App
 import cn.leizy.lib.http.IHttp
 import cn.leizy.lib.util.MyLiveDataBus
 import cn.leizy.lib.util.ToastUtil
+import com.alibaba.android.arouter.launcher.ARouter
 
 /**
  * @author Created by wulei
@@ -22,6 +23,7 @@ abstract class BaseActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        ARouter.getInstance().inject(this)
         window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
         setContentView(getLayoutId())
         unbinder = ButterKnife.bind(this)

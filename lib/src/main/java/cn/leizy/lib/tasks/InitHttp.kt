@@ -10,6 +10,7 @@ import cn.leizy.lib.http.HttpProxy
  * @description
  */
 class InitHttp : Task() {
+
     override fun run() {
         HttpProxy.init(context as Application)
     }

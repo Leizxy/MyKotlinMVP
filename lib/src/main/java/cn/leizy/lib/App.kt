@@ -6,9 +6,11 @@ import android.os.Bundle
 import android.util.Log
 import cn.leizy.lauch.TaskDispatcher
 import cn.leizy.lib.http.HttpProxy
+import cn.leizy.lib.tasks.InitARouter
 import cn.leizy.lib.util.ToastUtil
 import cn.leizy.lib.tasks.InitHttp
-import com.scwlyd.tmslib.lauch.Timing
+import cn.leizy.lib.util.Timing
+import com.alibaba.android.arouter.launcher.ARouter
 
 /**
  * @author Created by wulei
@@ -36,9 +38,15 @@ class App : Application(), Application.ActivityLifecycleCallbacks {
         TaskDispatcher.init(this)
         val dispatcher = TaskDispatcher.createInstance()
         dispatcher.addTask(InitHttp())
+            .addTask(InitARouter())
             .start()
         dispatcher.await()
         Timing.endRecord("App init")
+    }
+
+    override fun onTerminate() {
+        super.onTerminate()
+        ARouter.getInstance().destroy()
     }
 
     fun toast(str: String?) {

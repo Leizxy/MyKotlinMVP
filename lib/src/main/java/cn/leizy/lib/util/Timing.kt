@@ -1,4 +1,4 @@
-package com.scwlyd.tmslib.lauch
+package cn.leizy.lib.util
 
 import android.util.Log
 

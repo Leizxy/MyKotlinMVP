@@ -1,6 +1,14 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
+/*apply plugin: 'kotlin-kapt'
+
+kapt {
+    arguments {
+        arg("AROUTER_MODULE_NAME", project.getName())
+    }
+}*/
+
 android {
     compileSdkVersion rootProject.ext.cfgs.compileSdkVersion
 
@@ -27,10 +35,12 @@ android {
         }
     }
 
+/*
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+*/
 
 }
 
@@ -49,4 +59,7 @@ dependencies {
     implementation rootProject.ext.dependencies.recyclerView
     implementation rootProject.ext.dependencies.butterknife
     annotationProcessor rootProject.ext.dependencies.butterknife_compliler
+    implementation rootProject.ext.dependencies.arouter
+//    kapt rootProject.ext.dependencies.arouter_compiler
+//    annotationProcessor rootProject.ext.dependencies.arouter_compiler
 }
