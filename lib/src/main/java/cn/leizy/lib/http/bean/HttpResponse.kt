@@ -6,8 +6,11 @@ package cn.leizy.lib.http.bean
  * @description
  */
 class HttpResponse<T> {
-    var isSuccess: Boolean = false
-    var message: String? = null
-    var errorCode: Int? = null
-    var data: T? = null
+    var IsSuccess: Boolean = false
+//    var message: String? = null
+    var OperationDesc: String? = null
+//    var errorCode: Int? = null
+    var ResultCode: Int? = null
+//    var data: T? = null
+    var Result: T? = null
 }

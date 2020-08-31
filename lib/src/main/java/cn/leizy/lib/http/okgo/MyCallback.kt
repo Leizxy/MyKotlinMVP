@@ -14,10 +14,6 @@ abstract class MyCallback<T>() : AbsCallback<T>() {
     private var type: Type? = null
     private var clazz: Class<T>? = null
 
-    init {
-
-    }
-
     constructor(type: Type) : this() {
         this.type = type
     }

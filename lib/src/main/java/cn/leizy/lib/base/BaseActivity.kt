@@ -35,10 +35,6 @@ abstract class BaseActivity : AppCompatActivity() {
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
         initViews()
-        MyLiveDataBus.instance.with(
-            this.javaClass.simpleName + IHttp.HTTP_TOAST,
-            String::class.java
-        ).observe(this, Observer { toast(it as String) })
     }
 
     abstract fun initViews()
@@ -46,7 +42,6 @@ abstract class BaseActivity : AppCompatActivity() {
     override fun onDestroy() {
         super.onDestroy()
         unbinder.unbind()
-        MyLiveDataBus.instance.removeKey(this.javaClass.simpleName + IHttp.HTTP_TOAST)
     }
 
     fun toast(string: String) {

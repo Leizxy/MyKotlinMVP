@@ -1,7 +1,10 @@
 package cn.leizy.lib
 
 import android.app.Activity
+import android.app.ActivityManager
 import android.app.Application
+import android.content.ComponentName
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import cn.leizy.lauch.TaskDispatcher
@@ -9,8 +12,10 @@ import cn.leizy.lib.http.HttpProxy
 import cn.leizy.lib.tasks.InitARouter
 import cn.leizy.lib.util.ToastUtil
 import cn.leizy.lib.tasks.InitHttp
+import cn.leizy.lib.tasks.InitLeak
 import cn.leizy.lib.util.Timing
 import com.alibaba.android.arouter.launcher.ARouter
+import java.lang.ref.WeakReference
 
 /**
  * @author Created by wulei
@@ -28,6 +33,11 @@ class App : Application(), Application.ActivityLifecycleCallbacks {
         }
     }
 
+    private fun getRunningContext(): Context {
+        val manager: ActivityManager = getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
+        return manager.getRunningTasks(1).get(0).topActivity as Context
+    }
+
     override fun onCreate() {
         super.onCreate()
         instance = this
@@ -39,6 +49,7 @@ class App : Application(), Application.ActivityLifecycleCallbacks {
         val dispatcher = TaskDispatcher.createInstance()
         dispatcher.addTask(InitHttp())
             .addTask(InitARouter())
+            .addTask(InitLeak())
             .start()
         dispatcher.await()
         Timing.endRecord("App init")
@@ -50,7 +61,7 @@ class App : Application(), Application.ActivityLifecycleCallbacks {
     }
 
     fun toast(str: String?) {
-        ToastUtil.showToast(this, str)
+        ToastUtil.showToast(getRunningContext(), str)
     }
 
     fun getCurrentStr(): String {
