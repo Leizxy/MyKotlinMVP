@@ -1,5 +1,6 @@
 package cn.leizy.lib.base
 
+import android.net.Uri
 import android.os.Bundle
 import android.view.WindowManager
 import androidx.annotation.IdRes
@@ -11,6 +12,7 @@ import cn.leizy.lib.App
 import cn.leizy.lib.http.IHttp
 import cn.leizy.lib.util.MyLiveDataBus
 import cn.leizy.lib.util.ToastUtil
+import com.alibaba.android.arouter.facade.Postcard
 import com.alibaba.android.arouter.launcher.ARouter
 
 /**
@@ -20,6 +22,11 @@ import com.alibaba.android.arouter.launcher.ARouter
  */
 abstract class BaseActivity : AppCompatActivity() {
     private lateinit var unbinder: Unbinder
+
+    /**
+     * 用于ARouter拦截是否拦截判断依据
+     */
+    protected var interrupt = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,5 +57,21 @@ abstract class BaseActivity : AppCompatActivity() {
 
     fun toast(@IdRes idRes: Int) {
         ToastUtil.showToast(this, idRes)
+    }
+
+    /**
+     * 结合阿里ARouter的一个使用
+     * @Required ARouter
+     */
+    fun router(path: String): Postcard {
+        return ARouter.getInstance().build(path).withBoolean("interrupt", interrupt)
+    }
+
+    fun router(path: String, group: String): Postcard {
+        return ARouter.getInstance().build(path, group).withBoolean("interrupt", interrupt)
+    }
+
+    fun router(url: Uri): Postcard {
+        return ARouter.getInstance().build(url).withBoolean("interrupt", interrupt)
     }
 }
