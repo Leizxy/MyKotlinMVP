@@ -1,4 +1,4 @@
-package com.scwlyd.tmslib.lauch
+package cn.leizy.lauch
 
 import java.util.concurrent.*
 import java.util.concurrent.atomic.AtomicInteger
@@ -43,8 +43,8 @@ object DispatcherExecutor {
 
 
         init {
-            var s = SecurityManager()
-            group = if (s != null) s.threadGroup else Thread.currentThread().threadGroup
+            val s = SecurityManager()
+            group = s.threadGroup
             namePrefix = "TaskDispatcherPool-" + poolNumber.getAndIncrement() + "-Thread-"
         }
 

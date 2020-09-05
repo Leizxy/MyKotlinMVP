@@ -1,11 +1,9 @@
 package cn.leizy.lib.http.okgo
 
 import cn.leizy.lib.App
-import cn.leizy.lib.http.IHttp
 import com.google.gson.stream.JsonReader
 import com.lzy.okgo.convert.Converter
 import cn.leizy.lib.http.bean.HttpResponse
-import cn.leizy.lib.util.MyLiveDataBus
 import okhttp3.Response
 import org.json.JSONArray
 import org.json.JSONObject
@@ -49,7 +47,7 @@ class JsonConvert<T>() : Converter<T> {
 
     private fun parseType(response: Response, type: Type?): T? {
         if (type == null) return null
-        val body = response.body()
+        val body = response.body
         if (body == null) return null
         val jsonReader = JsonReader(body.charStream())
         val t: T = Convert.fromJson<T>(jsonReader, type)
@@ -60,7 +58,7 @@ class JsonConvert<T>() : Converter<T> {
     private fun parseClass(response: Response, rawType: Class<T>?): T? {
         if (rawType == null)
             return null
-        val body = response.body() ?: return null
+        val body = response.body ?: return null
         var jsonReader = JsonReader(body.charStream())
         if (rawType == String::class.java) {
             return body.string() as T
@@ -71,11 +69,8 @@ class JsonConvert<T>() : Converter<T> {
         } else {
             val httpResponse = Convert.fromJson<HttpResponse<*>>(jsonReader, rawType)
             response.close()
-            if (!httpResponse.isSuccess) {
-                MyLiveDataBus.instance.post(
-                    App.getInstance().getCurrentStr() + IHttp.HTTP_TOAST,
-                    httpResponse.message
-                )
+            if (!httpResponse.IsSuccess) {
+                App.getInstance().toast(httpResponse.OperationDesc)
             }
             return httpResponse as T
         }
@@ -83,7 +78,7 @@ class JsonConvert<T>() : Converter<T> {
 
     private fun parseParameterizedType(response: Response, type: ParameterizedType): T? {
         if (type == null) return null
-        val body = response.body()
+        val body = response.body
         if (body == null) return null
         val jsonReader = JsonReader(body.charStream())
 
@@ -97,16 +92,13 @@ class JsonConvert<T>() : Converter<T> {
             return t
         } else {
             //TODO 按项目需要重写
-            when (response.code()) {
+            when (response.code) {
                 200 -> {
                     val httpResponse =
                         Convert.fromJson<HttpResponse<*>>(jsonReader, type)
                     response.close()
-                    if (!httpResponse.isSuccess) {
-                        MyLiveDataBus.instance.post(
-                            App.getInstance().getCurrentStr() + IHttp.HTTP_TOAST,
-                            httpResponse.message
-                        )
+                    if (!httpResponse.IsSuccess) {
+                        App.getInstance().toast(httpResponse.OperationDesc)
                     }
                     return httpResponse as T
                 }

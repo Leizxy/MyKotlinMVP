@@ -1,6 +1,6 @@
-package com.scwlyd.tmslib.lauch.stat
+package cn.leizy.lauch.stat
 
-import com.scwlyd.tmslib.lauch.DispatcherLog
+import cn.leizy.lauch.DispatcherLog
 import java.util.concurrent.atomic.AtomicInteger
 
 /**

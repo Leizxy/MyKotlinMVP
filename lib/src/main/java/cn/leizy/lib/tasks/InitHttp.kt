@@ -1,8 +1,8 @@
 package cn.leizy.lib.tasks
 
 import android.app.Application
+import cn.leizy.lauch.task.Task
 import cn.leizy.lib.http.HttpProxy
-import com.scwlyd.tmslib.lauch.task.Task
 
 /**
  * @author Created by wulei
@@ -10,6 +10,7 @@ import com.scwlyd.tmslib.lauch.task.Task
  * @description
  */
 class InitHttp : Task() {
+
     override fun run() {
         HttpProxy.init(context as Application)
     }

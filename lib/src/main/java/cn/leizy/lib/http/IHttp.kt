@@ -1,7 +1,8 @@
 package cn.leizy.lib.http
 
 import android.app.Application
-import cn.leizy.lib.http.okgo.NetCallback
+import cn.leizy.lib.BuildConfig
+import com.lzy.okgo.OkGo
 
 /**
  * @author Created by wulei
@@ -10,26 +11,17 @@ import cn.leizy.lib.http.okgo.NetCallback
  */
 interface IHttp {
     companion object {
-        val LOGIN_HOST: String
-            get() = "http://192.168.200.170:9001"
-        val HOST: String
-            get() = "http://192.168.200.170:9004"
+        const val DEFAULT_MILLISECONDS: Long = OkGo.DEFAULT_MILLISECONDS
+        const val HOST: String = BuildConfig.APP_HOST
 
-        val LOGIN: String
-            get() = "/connect/token"
-
-        val LOGIN_URL: String
-            get() = LOGIN_HOST + LOGIN
-
-        val HTTP_TOAST: String
-            get() = "_http_toast"
+        const val LOGIN: String = "driver/login"
     }
 
     fun initHttp(context: Application)
 
-    fun <T> get(url: String, params: Map<String, Any>?, callback: NetCallback<T>)
+    fun <T> get(url: String, params: Map<String, Any>?, callback: BaseCallback<T>)
 
-    fun <T> post(url: String, tag: Any, params: Map<String, Any>?, callback: NetCallback<T>)
+    fun <T> post(url: String, tag: Any, params: Map<String, Any>?, callback: BaseCallback<T>)
 
     fun cancel(tag: Any)
 

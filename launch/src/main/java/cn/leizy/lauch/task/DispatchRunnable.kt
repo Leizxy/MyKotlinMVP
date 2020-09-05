@@ -1,11 +1,11 @@
-package com.scwlyd.tmslib.lauch.task
+package cn.leizy.lauch.task
 
 import android.os.Looper
 import android.os.Process
 import androidx.core.os.TraceCompat
-import com.scwlyd.tmslib.lauch.DispatcherLog
-import com.scwlyd.tmslib.lauch.TaskDispatcher
-import com.scwlyd.tmslib.lauch.stat.TaskStat
+import cn.leizy.lauch.DispatcherLog
+import cn.leizy.lauch.TaskDispatcher
+import cn.leizy.lauch.stat.TaskStat
 
 /**
  * @author Created by wulei
@@ -27,7 +27,7 @@ class DispatchRunnable(private var task: Task) : Runnable {
         var startTime = System.currentTimeMillis()
         task.isWaiting = true
         task.waitToSatisfy()
-        var waitTime = System.currentTimeMillis()
+        val waitTime = System.currentTimeMillis()
         startTime = System.currentTimeMillis()
 
         //执行task任务

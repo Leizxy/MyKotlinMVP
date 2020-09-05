@@ -1,13 +1,13 @@
-package com.scwlyd.tmslib.lauch
+package cn.leizy.lauch
 
 import android.content.Context
 import android.os.Looper
 import androidx.annotation.UiThread
-import com.scwlyd.tmslib.lauch.sort.TaskSortUtil
-import com.scwlyd.tmslib.lauch.stat.TaskStat
-import com.scwlyd.tmslib.lauch.task.DispatchRunnable
-import com.scwlyd.tmslib.lauch.task.Task
-import com.scwlyd.tmslib.lauch.task.TaskCallback
+import cn.leizy.lauch.sort.TaskSortUtil
+import cn.leizy.lauch.stat.TaskStat
+import cn.leizy.lauch.task.DispatchRunnable
+import cn.leizy.lauch.task.Task
+import cn.leizy.lauch.task.TaskCallback
 import java.util.concurrent.CountDownLatch
 import java.util.concurrent.Future
 import java.util.concurrent.TimeUnit
@@ -213,7 +213,7 @@ class TaskDispatcher private constructor() {
 
         fun createInstance(): TaskDispatcher {
             if (!hasInit) {
-                throw RuntimeException("pls call ${this.javaClass.simpleName}.init first")
+                throw RuntimeException("pls call ${TaskDispatcher::class.java.simpleName}.init first")
             }
             return TaskDispatcher()
         }

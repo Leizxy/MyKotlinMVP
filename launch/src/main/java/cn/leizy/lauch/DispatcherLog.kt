@@ -1,7 +1,7 @@
-package com.scwlyd.tmslib.lauch
+package cn.leizy.lauch
 
 import android.util.Log
-import com.scwlyd.tmslib.BuildConfig
+import cn.leizy.lauch.BuildConfig
 
 /**
  * @author Created by wulei

@@ -2,7 +2,7 @@ package cn.leizy.lib.http
 
 import android.app.Application
 import cn.leizy.lib.http.okgo.OkGoHttp
-import cn.leizy.lib.http.okgo.NetCallback
+import cn.leizy.lib.http.retrofit.RetrofitHttp
 import java.lang.StringBuilder
 
 /**
@@ -12,16 +12,20 @@ import java.lang.StringBuilder
  */
 class HttpProxy private constructor(val iHttp: IHttp) : IHttp {
 
-
     override fun initHttp(context: Application) {
         iHttp.initHttp(context)
     }
 
-    override fun <T> get(url: String, params: Map<String, Any>?, callback: NetCallback<T>) {
+    override fun <T> get(url: String, params: Map<String, Any>?, callback: BaseCallback<T>) {
         iHttp.get(url, params, callback)
     }
 
-    override fun <T> post(url: String, tag: Any, params: Map<String, Any>?, callback: NetCallback<T>) {
+    override fun <T> post(
+        url: String,
+        tag: Any,
+        params: Map<String, Any>?,
+        callback: BaseCallback<T>
+    ) {
         iHttp.post(url, tag, params, callback)
     }
 
@@ -38,19 +42,26 @@ class HttpProxy private constructor(val iHttp: IHttp) : IHttp {
         private var instance: HttpProxy? = null
 
         fun init(context: Application) {
+            init(context, false)
+        }
+
+        private fun init(context: Application, isRetrofit: Boolean) {
             if (instance == null) {
                 synchronized(HttpProxy::class.java) {
                     if (instance == null) {
-                        instance =
-                            HttpProxy(OkGoHttp())
+                        if (isRetrofit) {
+                            instance = HttpProxy(RetrofitHttp())
+                        } else {
+                            instance = HttpProxy(OkGoHttp())
+                        }
                         instance!!.initHttp(context)
                     }
                 }
             }
         }
 
-        fun get(): HttpProxy? {
-            return instance
+        fun get(): HttpProxy {
+            return instance!!
         }
 
         fun buildUrl(vararg strings: String): String {

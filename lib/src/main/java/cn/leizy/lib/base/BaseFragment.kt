@@ -36,7 +36,7 @@ abstract class BaseFragment : Fragment() {
         if (!isHidden && userVisibleHint) {
             dispatchVisibleState(true)
         }
-        unbinder = ButterKnife.bind(this, rootView!!)
+        unbinder = ButterKnife.bind(this, rootView)
         initView(rootView)
         //解决点击穿越问题
         rootView.isClickable = true
@@ -127,14 +127,14 @@ abstract class BaseFragment : Fragment() {
     }
 
     protected fun onFragmentResume() {
-        Log.i("BaseFragment", "onFragmentResume: ")
+        Log.i(this.javaClass.simpleName, "onFragmentResume: ")
     }
 
     protected fun onFragmentPause() {
-        Log.i("BaseFragment", "onFragmentPause: ")
+        Log.i(this.javaClass.simpleName, "onFragmentPause: ")
     }
 
     protected fun onFragmentFirstVisible() {
-        Log.i("BaseFragment", "onFragmentFirstVisible: ")
+        Log.i(this.javaClass.simpleName, "onFragmentFirstVisible: ")
     }
 }

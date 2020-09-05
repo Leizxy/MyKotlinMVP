@@ -1,9 +1,9 @@
-package com.scwlyd.tmslib.lauch.task
+package cn.leizy.lauch.task
 
 import android.content.Context
 import android.os.Process
-import com.scwlyd.tmslib.lauch.DispatcherExecutor
-import com.scwlyd.tmslib.lauch.TaskDispatcher
+import cn.leizy.lauch.DispatcherExecutor
+import cn.leizy.lauch.TaskDispatcher
 import java.util.concurrent.CountDownLatch
 import java.util.concurrent.ExecutorService
 
