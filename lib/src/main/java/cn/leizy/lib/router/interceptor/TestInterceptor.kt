@@ -31,6 +31,7 @@ class TestInterceptor : IInterceptor {
             callback!!.onContinue(postcard)
         }
         if (BuildConfig.DEBUG) {
+            Log.i("ARouter", "targetActivity : ${postcard.action}")
             Log.i("ARouter", "targetActivity : ${postcard.destination}")
         }
     }

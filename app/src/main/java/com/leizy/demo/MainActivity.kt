@@ -1,5 +1,7 @@
 package com.leizy.demo
 
+import android.content.Intent
+import android.os.Bundle
 import android.util.Log
 import android.view.View
 import cn.leizy.lib.base.BaseActivity
@@ -21,13 +23,12 @@ class MainActivity : BaseActivity() {
     @JvmField
     var l: Long = 0
     override fun getLayoutId(): Int {
-        ARouter.getInstance().inject(this)
         return R.layout.activity_main
     }
 
     override fun initViews() {
         Log.i("MainActivity", "initViews: long var is $l")
-        interrupt = l <= 0
+        interrupt = l <= -1
 
         Log.i("MainActivity", "initViews: ${Test().test()}")
     }
@@ -46,7 +47,8 @@ class MainActivity : BaseActivity() {
             override fun onSuccess(body: HttpResponse<Any>) {
                 val obj: HttpResponse<String> = HttpResponse()
                 obj.Result = "test"
-
+/*                val bundle = Bundle()
+                bundle.putInt("test", 111)*/
                 router("/login/test")
                     .withLong("long", 32)
                     .withBoolean("bool", interrupt)
@@ -70,5 +72,13 @@ class MainActivity : BaseActivity() {
                     })
             }
         })
+    }
+
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
+        l = intent!!.extras!!["l"] as Long
+        Log.i("MainActivity", "onNewIntent: $l")
+        interrupt = false
+        Log.i("MainActivity", "onNewIntent: $interrupt")
     }
 }
