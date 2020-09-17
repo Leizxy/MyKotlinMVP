@@ -1,7 +1,9 @@
 package cn.leizy.lib.base
 
+import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.WindowManager
 import androidx.annotation.IdRes
 import androidx.appcompat.app.AppCompatActivity
@@ -46,6 +48,11 @@ abstract class BaseActivity : AppCompatActivity() {
 
     abstract fun initViews()
 
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
+        Log.i(this.javaClass.simpleName, "onNewIntent: ")
+    }
+
     override fun onDestroy() {
         super.onDestroy()
         unbinder.unbind()
@@ -64,6 +71,7 @@ abstract class BaseActivity : AppCompatActivity() {
      * @Required ARouter
      */
     fun router(path: String): Postcard {
+        Log.i("BaseActivity", "router: " + interrupt)
         return ARouter.getInstance().build(path).withBoolean("interrupt", interrupt)
     }
 

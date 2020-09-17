@@ -43,7 +43,8 @@ class ToastUtil {
                 return
             }
             when (toast) {
-                null -> toast = Toast.makeText(context, string, Toast.LENGTH_SHORT)
+                null -> toast =
+                    Toast.makeText(context.applicationContext, string, Toast.LENGTH_SHORT)
                 else -> toast!!.setText(string)
             }
             toast!!.show()
@@ -51,7 +52,7 @@ class ToastUtil {
 
         @SuppressLint("ResourceType")
         fun showToast(context: Context, @IdRes resId: Int) {
-            showToast(context, context.resources.getString(resId))
+            showToast(context.applicationContext, context.resources.getString(resId))
         }
 
     }
