@@ -9,13 +9,21 @@ import cn.leizy.lib.http.HttpProxy
 import cn.leizy.lib.http.IHttp
 import cn.leizy.lib.http.bean.HttpResponse
 import cn.leizy.lib.http.okgo.OkGoCallback
+import cn.leizy.lib.http.retrofit.RetrofitApi
+import cn.leizy.lib.retrofit.CommonApi
+import cn.leizy.lib.retrofit.HttpInterface
+import cn.leizy.lib.retrofit.RetrofitUtil
 import cn.leizy.lib.router.service.HelloServiceImpl
 import com.alibaba.android.arouter.facade.Postcard
 import com.alibaba.android.arouter.facade.annotation.Autowired
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.facade.callback.NavigationCallback
 import com.alibaba.android.arouter.launcher.ARouter
-import java.util.*
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
+import org.json.JSONObject
+import org.reactivestreams.Subscriber
+import org.reactivestreams.Subscription
 
 @Route(path = "/app/main", extras = 0)
 class MainActivity : BaseActivity() {
@@ -36,7 +44,7 @@ class MainActivity : BaseActivity() {
     fun click(view: View) {
 //        ARouter.getInstance().build("/login/test").navigation()
 
-        val params: MutableMap<String, String> = HashMap()
+        val params: MutableMap<String, Any> = HashMap()
         params["Moblie"] = "13245678978"
         params["MT"] = ""
         params["Password"] = "TmkuQqmJvuc\u003d"
@@ -72,6 +80,10 @@ class MainActivity : BaseActivity() {
                     })
             }
         })
+
+        // TODO: 2020/9/18, 018  
+        CommonApi.getService(HttpInterface::class.java).login(RetrofitUtil.getRequestBody(params))
+            .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe()
     }
 
     override fun onNewIntent(intent: Intent?) {
