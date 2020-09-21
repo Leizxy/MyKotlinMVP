@@ -33,11 +33,6 @@ class App : Application(), Application.ActivityLifecycleCallbacks {
         }
     }
 
-    private fun getRunningContext(): Context {
-        val manager: ActivityManager = getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
-        return manager.getRunningTasks(1).get(0).topActivity as Context
-    }
-
     override fun onCreate() {
         super.onCreate()
         instance = this
@@ -52,6 +47,7 @@ class App : Application(), Application.ActivityLifecycleCallbacks {
             .addTask(InitLeak())
             .start()
         dispatcher.await()
+        ToastUtil.init(this)
         Timing.endRecord("App init")
     }
 
@@ -61,7 +57,7 @@ class App : Application(), Application.ActivityLifecycleCallbacks {
     }
 
     fun toast(str: String?) {
-        ToastUtil.showToast(getRunningContext(), str)
+        ToastUtil.showToast(str)
     }
 
     fun getCurrentStr(): String {

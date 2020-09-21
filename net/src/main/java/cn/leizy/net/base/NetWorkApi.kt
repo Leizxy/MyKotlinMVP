@@ -2,6 +2,8 @@ package cn.leizy.net.base
 
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
+import retrofit2.converter.gson.GsonConverterFactory
 import java.lang.RuntimeException
 
 /**
@@ -35,14 +37,18 @@ abstract class NetWorkApi constructor() {
             return retrofits[baseUrl + service.simpleName]!!
         }
         val builder: Retrofit.Builder = Retrofit.Builder()
-        builder.client(getOkHttpClient()!!).baseUrl(baseUrl)
+        builder.client(getOkHttpClient()!!)
+            .baseUrl(baseUrl)
+            .addConverterFactory(GsonConverterFactory.create())
+            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
         val retrofit: Retrofit = builder.build()
+        retrofit.create(service)
         retrofits[baseUrl + service.simpleName] = retrofit
         return retrofit
     }
 
     private fun getOkHttpClient(): OkHttpClient? {
-        if (okHttpClient != null) {
+        if (okHttpClient == null) {
             val okHttpClientBuilder: OkHttpClient.Builder = OkHttpClient.Builder()
             okHttpClient = okHttpClientBuilder.build()
         }

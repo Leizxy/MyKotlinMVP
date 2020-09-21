@@ -59,11 +59,11 @@ abstract class BaseActivity : AppCompatActivity() {
     }
 
     fun toast(string: String) {
-        ToastUtil.showToast(this, string)
+        ToastUtil.showToast(string)
     }
 
     fun toast(@IdRes idRes: Int) {
-        ToastUtil.showToast(this, idRes)
+        ToastUtil.showToast(idRes)
     }
 
     /**

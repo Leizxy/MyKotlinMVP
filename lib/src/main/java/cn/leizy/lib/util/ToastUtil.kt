@@ -14,6 +14,7 @@ import androidx.annotation.IdRes
  * @description
  */
 class ToastUtil {
+
     init {
         throw UnsupportedOperationException("ToastUtil can not be Instantiate!")
     }
@@ -21,38 +22,32 @@ class ToastUtil {
     companion object {
         private var isShow: Boolean = true
         private var toast: Toast? = null
+        private var context: Context? = null
 
-        /**
-         * 控制显示toast与否
-         */
-        fun controlShow(show: Boolean) {
-            isShow = show
+        fun init(context: Context) {
+            this.context = context
         }
 
-        /**
-         * 取消显示
-         */
-        fun cancelToast() {
-            if (isShow) {
-                toast!!.cancel()
+        fun showToast(string: String?) {
+            if (context == null) {
+                throw UnsupportedOperationException("pls call init() first")
             }
-        }
-
-        fun showToast(context: Context, string: String?) {
             if (!isShow && TextUtils.isEmpty(string)) {
                 return
             }
+            Looper.prepare()
             when (toast) {
                 null -> toast =
-                    Toast.makeText(context.applicationContext, string, Toast.LENGTH_SHORT)
+                    Toast.makeText(context!!, string, Toast.LENGTH_SHORT)
                 else -> toast!!.setText(string)
             }
             toast!!.show()
+            Looper.loop()
         }
 
         @SuppressLint("ResourceType")
-        fun showToast(context: Context, @IdRes resId: Int) {
-            showToast(context.applicationContext, context.resources.getString(resId))
+        fun showToast(@IdRes resId: Int) {
+            showToast(context!!.resources.getString(resId))
         }
 
     }

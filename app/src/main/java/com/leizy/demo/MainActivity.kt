@@ -1,7 +1,6 @@
 package com.leizy.demo
 
 import android.content.Intent
-import android.os.Bundle
 import android.util.Log
 import android.view.View
 import cn.leizy.lib.base.BaseActivity
@@ -9,21 +8,17 @@ import cn.leizy.lib.http.HttpProxy
 import cn.leizy.lib.http.IHttp
 import cn.leizy.lib.http.bean.HttpResponse
 import cn.leizy.lib.http.okgo.OkGoCallback
-import cn.leizy.lib.http.retrofit.RetrofitApi
 import cn.leizy.lib.retrofit.CommonApi
 import cn.leizy.lib.retrofit.HttpInterface
 import cn.leizy.lib.retrofit.RetrofitUtil
-import cn.leizy.lib.router.service.HelloServiceImpl
 import com.alibaba.android.arouter.facade.Postcard
 import com.alibaba.android.arouter.facade.annotation.Autowired
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.facade.callback.NavigationCallback
-import com.alibaba.android.arouter.launcher.ARouter
 import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.functions.Action
+import io.reactivex.functions.Consumer
 import io.reactivex.schedulers.Schedulers
-import org.json.JSONObject
-import org.reactivestreams.Subscriber
-import org.reactivestreams.Subscription
 
 @Route(path = "/app/main", extras = 0)
 class MainActivity : BaseActivity() {
@@ -81,9 +76,14 @@ class MainActivity : BaseActivity() {
             }
         })
 
-        // TODO: 2020/9/18, 018  
+        // TODO: 2020/9/18, 018
         CommonApi.getService(HttpInterface::class.java).login(RetrofitUtil.getRequestBody(params))
-            .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe()
+            .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+            .subscribe(
+                Consumer { Log.i("MainActivity", "next: ${it.IsSuccess}") },
+                Consumer { Log.i("MainActivity", "throwable: ${it.message}") },
+                Action { Log.i("MainActivity", "action: ") }
+            )
     }
 
     override fun onNewIntent(intent: Intent?) {
