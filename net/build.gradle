@@ -47,9 +47,10 @@ dependencies {
 
 
     implementation rootProject.ext.dependencies.retrofit
-    implementation rootProject.ext.dependencies.retrofit_gson
-    implementation rootProject.ext.dependencies.retrofit_log
+    api rootProject.ext.dependencies.retrofit_gson
+    api rootProject.ext.dependencies.retrofit_log
     api rootProject.ext.dependencies.retrofit_rxjava
+    api rootProject.ext.dependencies.retrofit_kt_coroutine
     implementation rootProject.ext.dependencies.rxjava
     api rootProject.ext.dependencies.rxandroid
 }

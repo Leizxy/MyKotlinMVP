@@ -6,6 +6,6 @@ package cn.leizy.lib.base
  * @description
  */
 interface IPresenter<V : IView, M : IModel> {
-    fun attachView(view: V)
+    fun <V : IView> attachView(view: V)
     fun detachView()
 }

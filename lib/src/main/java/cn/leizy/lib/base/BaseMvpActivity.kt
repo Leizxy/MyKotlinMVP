@@ -10,7 +10,7 @@ import java.lang.reflect.ParameterizedType
  * @date 2019-11-18
  * @description
  */
-abstract class BaseMvpActivity<P : BasePresenter<IView, IModel>> : BaseActivity(), IView {
+abstract class BaseMvpActivity<P : BasePresenter> : BaseActivity(), IView {
     private var presenter: P? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

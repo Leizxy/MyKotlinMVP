@@ -6,6 +6,7 @@ import cn.leizy.lib.http.HttpProxy
 import cn.leizy.lib.retrofit.CommonApi
 import cn.leizy.lib.retrofit.HttpInterface
 import cn.leizy.lib.retrofit.RetrofitUtil
+import cn.leizy.net.base.IRequiredInfo
 import cn.leizy.net.base.NetWorkApi
 
 /**
@@ -17,6 +18,6 @@ class InitHttp : Task() {
 
     override fun run() {
         HttpProxy.init(context as Application)
-        NetWorkApi.init()
+        NetWorkApi.init(context as IRequiredInfo)
     }
 }

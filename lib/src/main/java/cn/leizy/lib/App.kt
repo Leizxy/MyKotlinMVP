@@ -14,6 +14,7 @@ import cn.leizy.lib.util.ToastUtil
 import cn.leizy.lib.tasks.InitHttp
 import cn.leizy.lib.tasks.InitLeak
 import cn.leizy.lib.util.Timing
+import cn.leizy.net.base.IRequiredInfo
 import com.alibaba.android.arouter.launcher.ARouter
 import java.lang.ref.WeakReference
 
@@ -22,7 +23,7 @@ import java.lang.ref.WeakReference
  * @date 2019-11-11
  * @description
  */
-class App : Application(), Application.ActivityLifecycleCallbacks {
+class App : Application(), Application.ActivityLifecycleCallbacks, IRequiredInfo {
     private var currentActivity: Activity? = null
 
     companion object {
@@ -57,7 +58,7 @@ class App : Application(), Application.ActivityLifecycleCallbacks {
     }
 
     fun toast(str: String?) {
-        ToastUtil.showToast(str)
+        ToastUtil.showToast(string = str)
     }
 
     fun getCurrentStr(): String {
@@ -91,5 +92,9 @@ class App : Application(), Application.ActivityLifecycleCallbacks {
 
     override fun onActivityCreated(p0: Activity?, p1: Bundle?) {
         Log.i("App", "onActivityCreated: " + p0?.javaClass!!.simpleName)
+    }
+
+    override fun isDebug(): Boolean {
+        return BuildConfig.DEBUG
     }
 }

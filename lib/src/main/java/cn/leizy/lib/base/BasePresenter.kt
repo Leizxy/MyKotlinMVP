@@ -10,27 +10,26 @@ import java.lang.reflect.Proxy
  * @date 2019-11-16
  * @description
  */
-abstract class BasePresenter<V : IView, M : IModel> : IPresenter<V, M> {
-    protected var mView: V? = null
-    protected var model: M? = null
-    private var weakReference: WeakReference<V>? = null
+abstract class BasePresenter : IPresenter<IView, IModel> {
+    protected var mView: IView? = null
+    protected var model: IModel? = null
+    private var weakReference: WeakReference<IView>? = null
 
-    protected val isViewAttached: Boolean
-        get() = weakReference != null && weakReference?.get() != null
+    protected val isViewAttached: Boolean = weakReference != null && weakReference?.get() != null
 
-    override fun attachView(view: V) {
+    override fun <V : IView> attachView(view: V) {
         weakReference = WeakReference(view)
         mView = Proxy.newProxyInstance(
             view.javaClass.classLoader,
             view.javaClass.interfaces,
             MvpViewHandler(weakReference?.get()!!)
-        ) as V
+        ) as IView
         if (model == null) {
             model = createModel()
         }
     }
 
-    abstract fun createModel(): M
+    abstract fun createModel(): IModel
 
     override fun detachView() {
         model!!.cancelHttp()
@@ -42,7 +41,8 @@ abstract class BasePresenter<V : IView, M : IModel> : IPresenter<V, M> {
     }
 
 
-    private inner class MvpViewHandler internal constructor(private val mvpView: IView) : InvocationHandler {
+    private inner class MvpViewHandler(private val mvpView: IView) :
+        InvocationHandler {
         @Throws(Throwable::class)
         override fun invoke(proxy: Any, method: Method, args: Array<out Any>): Any? {
             //如果V层没被销毁, 执行V层的方法.

@@ -7,6 +7,7 @@ import android.os.Looper
 import android.text.TextUtils
 import android.widget.Toast
 import androidx.annotation.IdRes
+import cn.leizy.lib.App
 
 /**
  * @author Created by wulei
@@ -28,17 +29,14 @@ class ToastUtil {
             this.context = context
         }
 
-        fun showToast(string: String?) {
-            if (context == null) {
-                throw UnsupportedOperationException("pls call init() first")
-            }
+        fun showToast(context: Context = App.getInstance(), string: String?) {
             if (!isShow && TextUtils.isEmpty(string)) {
                 return
             }
             Looper.prepare()
             when (toast) {
                 null -> toast =
-                    Toast.makeText(context!!, string, Toast.LENGTH_SHORT)
+                    Toast.makeText(context, string, Toast.LENGTH_SHORT)
                 else -> toast!!.setText(string)
             }
             toast!!.show()
@@ -46,8 +44,8 @@ class ToastUtil {
         }
 
         @SuppressLint("ResourceType")
-        fun showToast(@IdRes resId: Int) {
-            showToast(context!!.resources.getString(resId))
+        fun showToast(context: Context = App.getInstance(), @IdRes resId: Int) {
+            showToast(context, context.resources.getString(resId))
         }
 
     }

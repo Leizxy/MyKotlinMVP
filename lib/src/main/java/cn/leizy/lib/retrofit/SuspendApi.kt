@@ -2,24 +2,23 @@ package cn.leizy.lib.retrofit
 
 import cn.leizy.lib.http.IHttp
 import cn.leizy.net.base.NetWorkApi
+import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import retrofit2.CallAdapter
-import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 
 /**
  * @author Created by wulei
- * @date 2020/9/18, 018
+ * @date 2020/9/22, 022
  * @description
  */
-class CommonApi : NetWorkApi() {
-    companion object {
+class SuspendApi : NetWorkApi() {
+    companion object{
         @Volatile
-        private var instance: CommonApi? = null
-
-        fun getInstance(): CommonApi {
+        private var instance:SuspendApi? = null
+        fun getInstance(): SuspendApi {
             if (instance == null) {
-                synchronized(CommonApi::class.java) {
+                synchronized(SuspendApi::class.java) {
                     if (instance == null) {
-                        instance = CommonApi()
+                        instance = SuspendApi()
                     }
                 }
             }
@@ -30,13 +29,11 @@ class CommonApi : NetWorkApi() {
             return getInstance().getRetrofit(service).create(service)
         }
     }
-
     override fun getHost(): String {
         return IHttp.HOST
     }
 
     override fun getCallAdapter(): CallAdapter.Factory {
-        return RxJava2CallAdapterFactory.create()
+        return CoroutineCallAdapterFactory()
     }
-
 }

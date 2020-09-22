@@ -10,6 +10,7 @@ import java.lang.reflect.ParameterizedType
  * @date 2019/11/19, 019
  * @description
  */
+/*
 abstract class BaseMvpFragment<P : BasePresenter<IView, IModel>> : BaseFragment(), IView {
     private var presenter: P? = null
 
@@ -37,4 +38,4 @@ abstract class BaseMvpFragment<P : BasePresenter<IView, IModel>> : BaseFragment(
         }
         return p
     }
-}
+}*/
