@@ -1,5 +1,7 @@
 package cn.leizy.lib.base
 
+import cn.leizy.lib.base.mvp.IModel
+import cn.leizy.lib.base.mvp.IView
 import java.lang.ref.WeakReference
 import java.lang.reflect.InvocationHandler
 import java.lang.reflect.Method
@@ -8,10 +10,10 @@ import java.lang.reflect.Proxy
 /**
  * @author Created by wulei
  * @date 2019-11-16
- * @description
+ * @description 不太好用。
  */
 abstract class BasePresenter : IPresenter<IView, IModel> {
-    protected var mView: IView? = null
+    protected var view: IView? = null
     protected var model: IModel? = null
     private var weakReference: WeakReference<IView>? = null
 
@@ -19,9 +21,9 @@ abstract class BasePresenter : IPresenter<IView, IModel> {
 
     override fun <V : IView> attachView(view: V) {
         weakReference = WeakReference(view)
-        mView = Proxy.newProxyInstance(
-            view.javaClass.classLoader,
-            view.javaClass.interfaces,
+        this.view = Proxy.newProxyInstance(
+            view::class.java.classLoader,
+            view::class.java.interfaces,
             MvpViewHandler(weakReference?.get()!!)
         ) as IView
         if (model == null) {

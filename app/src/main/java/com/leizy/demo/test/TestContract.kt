@@ -1,8 +1,7 @@
 package com.leizy.demo.test
 
-import cn.leizy.lib.base.IModel
-import cn.leizy.lib.base.IPresenter
-import cn.leizy.lib.base.IView
+import cn.leizy.lib.base.mvp.IModel
+import cn.leizy.lib.base.mvp.IView
 
 /**
  * @author Created by wulei
@@ -10,14 +9,14 @@ import cn.leizy.lib.base.IView
  * @description
  */
 interface TestContract {
-    interface Model: IModel{
-
+    interface Model : IModel {
+        fun test(): Int
     }
 
-    interface View : IView{
+    interface View : IView {
     }
 
     interface Presenter {
-
+        fun test()
     }
 }

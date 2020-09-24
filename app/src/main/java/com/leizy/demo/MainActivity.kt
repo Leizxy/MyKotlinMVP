@@ -97,7 +97,7 @@ class MainActivity : BaseActivity(), CoroutineScope by MainScope() {
                 Consumer { Log.i("MainActivity", "throwable: ${it.message}") },
                 Action { Log.i("MainActivity", "action: ") }
             )*/
-        router("/app/testmvp").navigation()
+        router("/app/test2mvp").navigation()
         return
 
         GlobalScope.launch {

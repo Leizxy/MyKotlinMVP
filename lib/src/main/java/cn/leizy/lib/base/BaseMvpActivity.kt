@@ -1,6 +1,7 @@
 package cn.leizy.lib.base
 
 import android.os.Bundle
+import cn.leizy.lib.base.mvp.IView
 import java.lang.Exception
 import java.lang.RuntimeException
 import java.lang.reflect.ParameterizedType
@@ -8,10 +9,10 @@ import java.lang.reflect.ParameterizedType
 /**
  * @author Created by wulei
  * @date 2019-11-18
- * @description
+ * @description 不太好用。建议使用java版的BaseMvpActivity别继承该类。
  */
 abstract class BaseMvpActivity<P : BasePresenter> : BaseActivity(), IView {
-    private var presenter: P? = null
+    protected var presenter: P? = getPresenter()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         presenter = getPresenter()
@@ -24,7 +25,8 @@ abstract class BaseMvpActivity<P : BasePresenter> : BaseActivity(), IView {
         presenter = null
     }
 
-    private fun getPresenter(): P {
+    @JvmName("getPresenter1")
+    protected fun getPresenter(): P {
         val p: P
         try {
             val pt: ParameterizedType = javaClass.genericSuperclass as ParameterizedType

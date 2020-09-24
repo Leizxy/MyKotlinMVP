@@ -1,7 +1,7 @@
 package com.leizy.demo.test
 
 import android.util.Log
-import cn.leizy.lib.base.BasePresenter
+import cn.leizy.lib.base.JBasePresenter
 import kotlinx.coroutines.*
 
 /**
@@ -9,7 +9,7 @@ import kotlinx.coroutines.*
  * @date 2020/9/22, 022
  * @description
  */
-class TestPresenter : BasePresenter(),
+class JTestPresenter : JBasePresenter<TestContract.View, TestContract.Model>(),
     TestContract.Presenter {
     override fun createModel(): TestContract.Model {
         return TestModel()
@@ -19,8 +19,8 @@ class TestPresenter : BasePresenter(),
         Log.i("TestPresenter", "test: ${isViewAttached}")
         GlobalScope.launch(Dispatchers.Main) {
             delay(1000)
-            view?.success(0, withContext(Dispatchers.IO) {
-                (model as TestModel).test()
+            view!!.success(0, withContext(Dispatchers.IO) {
+                model.test()
             })
         }
     }

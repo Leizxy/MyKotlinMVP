@@ -5,7 +5,7 @@ package cn.leizy.lib.base
  * @date 2019-11-16
  * @description
  */
-interface IModel {
-    fun getTag(): Any
-    fun cancelHttp()
+interface JPresenter<V, M> {
+    fun attachView(view: V)
+    fun detachView()
 }

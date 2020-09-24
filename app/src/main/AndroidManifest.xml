@@ -22,6 +22,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".test.TestMvpActivity" />
+        <activity android:name=".test.JTestMvpActivity" />
+        <activity android:name=".test2.Test2MvpActivity" />
     </application>
 
 </manifest>

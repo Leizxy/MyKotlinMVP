@@ -1,5 +1,8 @@
 package cn.leizy.lib.base
 
+import cn.leizy.lib.base.mvp.IModel
+import cn.leizy.lib.base.mvp.IView
+
 /**
  * @author Created by wulei
  * @date 2019-11-16

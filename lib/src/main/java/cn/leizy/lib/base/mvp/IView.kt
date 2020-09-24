@@ -1,4 +1,4 @@
-package cn.leizy.lib.base
+package cn.leizy.lib.base.mvp
 
 /**
  * @author Created by wulei

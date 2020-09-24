@@ -1,19 +1,20 @@
-package com.leizy.demo.test
+package com.leizy.demo.test2
 
 import android.widget.TextView
-import cn.leizy.lib.base.BaseMvpActivity
+import cn.leizy.lib.base.mvp.BaseMvpActivity
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.leizy.demo.R
+import com.leizy.demo.test.TestContract
 import kotterknife.bindView
 
 /**
  * @author Created by wulei
- * @date 2020/9/22, 022
+ * @date 2020/9/24, 024
  * @description
  */
-
-@Route(path = "/app/testmvp", extras = 0)
-class TestMvpActivity : BaseMvpActivity<TestPresenter>(), TestContract.View {
+@Route(path = "/app/test2mvp", extras = 0)
+class Test2MvpActivity : BaseMvpActivity<TestContract.View, TestContract.Model, Test2Presenter>(),
+    TestContract.View {
     private val tv: TextView by bindView(R.id.tv)
     override fun getLayoutId(): Int {
         return R.layout.activity_test
@@ -32,7 +33,7 @@ class TestMvpActivity : BaseMvpActivity<TestPresenter>(), TestContract.View {
 
     override fun success(key: Int, obj: Any) {
         when (key) {
-            0 -> tv.text = obj as String
+            0 -> tv.text = (obj as Int).toString()
         }
     }
 

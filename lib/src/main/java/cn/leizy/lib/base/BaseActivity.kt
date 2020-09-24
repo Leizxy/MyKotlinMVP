@@ -7,12 +7,8 @@ import android.util.Log
 import android.view.WindowManager
 import androidx.annotation.IdRes
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.Observer
 import butterknife.ButterKnife
 import butterknife.Unbinder
-import cn.leizy.lib.App
-import cn.leizy.lib.http.IHttp
-import cn.leizy.lib.util.MyLiveDataBus
 import cn.leizy.lib.util.ToastUtil
 import com.alibaba.android.arouter.facade.Postcard
 import com.alibaba.android.arouter.launcher.ARouter
@@ -36,14 +32,22 @@ abstract class BaseActivity : AppCompatActivity() {
         window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
         setContentView(getLayoutId())
         unbinder = ButterKnife.bind(this)
+        initViews()
     }
 
     abstract fun getLayoutId(): Int
 
+    override fun onResume() {
+        super.onResume()
+        initData()
+    }
+
+    protected fun initData() {
+
+    }
 
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
-        initViews()
     }
 
     abstract fun initViews()
