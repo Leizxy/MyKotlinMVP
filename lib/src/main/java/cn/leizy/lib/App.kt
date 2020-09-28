@@ -97,4 +97,8 @@ class App : Application(), Application.ActivityLifecycleCallbacks, IRequiredInfo
     override fun isDebug(): Boolean {
         return BuildConfig.DEBUG
     }
+
+    override fun getApplication(): Application {
+        return this
+    }
 }

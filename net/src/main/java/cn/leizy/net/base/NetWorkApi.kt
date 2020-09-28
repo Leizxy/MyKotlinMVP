@@ -1,11 +1,12 @@
 package cn.leizy.net.base
 
-import android.util.Log
+import cn.leizy.net.interceptors.RequestInterceptor
+import cn.leizy.net.interceptors.ResponseInterceptor
+import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.CallAdapter
 import retrofit2.Retrofit
-import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import java.lang.RuntimeException
 
@@ -24,7 +25,7 @@ abstract class NetWorkApi {
     companion object {
         private val retrofits: HashMap<String, Retrofit> = HashMap()
         private var iRequiredInfo: IRequiredInfo? = null
-        fun init(iRequiredInfo: IRequiredInfo?) {
+        fun init(iRequiredInfo: IRequiredInfo) {
             this.iRequiredInfo = iRequiredInfo
         }
     }
@@ -56,7 +57,10 @@ abstract class NetWorkApi {
     private fun getOkHttpClient(): OkHttpClient? {
         if (okHttpClient == null) {
             val okHttpClientBuilder: OkHttpClient.Builder = OkHttpClient.Builder()
-            if (iRequiredInfo!!.isDebug()){
+            getInterceptor()?.let { okHttpClientBuilder.addInterceptor(getInterceptor()!!) }
+            okHttpClientBuilder.addInterceptor(RequestInterceptor(iRequiredInfo!!))
+            okHttpClientBuilder.addInterceptor(ResponseInterceptor())
+            if (iRequiredInfo!!.isDebug()) {
                 val log = HttpLoggingInterceptor(MyLogger())
                 log.setLevel(HttpLoggingInterceptor.Level.BODY)
                 okHttpClientBuilder.addInterceptor(log)
@@ -65,4 +69,6 @@ abstract class NetWorkApi {
         }
         return okHttpClient
     }
+
+    abstract fun getInterceptor(): Interceptor?
 }

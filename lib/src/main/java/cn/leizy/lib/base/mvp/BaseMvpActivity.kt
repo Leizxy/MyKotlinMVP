@@ -9,7 +9,7 @@ import java.lang.reflect.ParameterizedType
 /**
  * @author Created by wulei
  * @date 2020/9/24, 024
- * @description
+ * @description 适用kotlin
  */
 abstract class BaseMvpActivity<V, M, P : BasePresenter<V, M>> : BaseActivity(), IView {
     protected var presenter: P? = null

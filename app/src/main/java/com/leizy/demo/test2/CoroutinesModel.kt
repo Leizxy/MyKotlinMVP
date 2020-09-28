@@ -9,7 +9,7 @@ import kotlin.coroutines.CoroutineContext
 /**
  * @author Created by wulei
  * @date 2020/9/28, 028
- * @description
+ * @description 废弃，协程应该写到P层
  */
 abstract class CoroutinesModel : IModel, CoroutineScope {
     override val coroutineContext: CoroutineContext

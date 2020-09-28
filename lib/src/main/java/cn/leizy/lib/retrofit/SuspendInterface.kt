@@ -20,5 +20,7 @@ interface SuspendInterface {
     @POST(IHttp.LOGIN)
     suspend fun login(@Body body: RequestBody): HttpResponse<JSONObject>
     @POST(IHttp.LOGIN)
+    suspend fun login1(@Body body: RequestBody): Deferred<HttpResponse<LoginBean>>
+    @POST(IHttp.LOGIN)
     fun login2(@Body body: RequestBody): Deferred<HttpResponse<LoginBean>>
 }

@@ -5,13 +5,18 @@ import android.util.Log
 import android.view.View
 import android.widget.TextView
 import cn.leizy.lib.base.BaseActivity
+import cn.leizy.lib.http.bean.HttpResponse
+import cn.leizy.lib.http.bean.LoginBean
 import cn.leizy.lib.retrofit.RetrofitUtil
 import cn.leizy.lib.retrofit.SuspendApi
 import cn.leizy.lib.retrofit.SuspendInterface
 import com.alibaba.android.arouter.facade.annotation.Autowired
 import com.alibaba.android.arouter.facade.annotation.Route
+import io.reactivex.internal.operators.completable.CompletableDoFinally
 import kotlinx.coroutines.*
 import kotterknife.bindView
+import org.json.JSONObject
+import retrofit2.HttpException
 
 @Route(path = "/app/main", extras = 0)
 class MainActivity : BaseActivity(), CoroutineScope by MainScope() {
@@ -97,8 +102,8 @@ class MainActivity : BaseActivity(), CoroutineScope by MainScope() {
                 Consumer { Log.i("MainActivity", "throwable: ${it.message}") },
                 Action { Log.i("MainActivity", "action: ") }
             )*/
-        router("/app/test2mvp").navigation()
-        return
+//        router("/app/testmvp").navigation()
+//        return
 
         GlobalScope.launch {
             Log.i("MainActivity", "launch ${Thread.currentThread().name}")
@@ -120,6 +125,66 @@ class MainActivity : BaseActivity(), CoroutineScope by MainScope() {
 //            tv.setText(await.OperationDesc)
         }
 
+
+        coroutineScope.launch {
+            requestTryCatch({
+                Log.i("MainActivity", "click: start")
+                SuspendApi.getService(SuspendInterface::class.java)
+                    .login1(RetrofitUtil.getRequestBody(params)).await()
+            }, { obj: LoginBean? ->
+                Log.i("MainActivity", "click: success")
+                Log.i("MainActivity", "click: $obj")
+                Log.i("MainActivity", "click: $obj")
+            }, { errMsg: String? ->
+                Log.i("MainActivity", "click: fail ${errMsg}")
+            }, {
+                Log.i("MainActivity", "click: finally")
+            })
+        }
+    }
+
+    val coroutineScope = CoroutineScope(Dispatchers.Main + Job())
+
+    private suspend fun <T> requestTryCatch(
+        tryBlock: suspend CoroutineScope.() -> HttpResponse<T>?,
+        successBlock: suspend CoroutineScope.(T?) -> Unit,
+        catchBlock: suspend CoroutineScope.(String?) -> Unit,
+        finallyBlock: suspend CoroutineScope.() -> Unit
+    ) {
+        coroutineScope {
+            try {
+                val response = tryBlock()
+                callResponse(response, {
+                    successBlock(response?.Result)
+                }, { catchBlock(response?.OperationDesc) })
+
+            } catch (e: Throwable) {
+                var errMsg = ""
+                when (e) {
+                    is HttpException -> {
+                        errMsg = "HttpException"
+                    }
+                    else -> errMsg = e.message.toString()
+                }
+                catchBlock(errMsg)
+            } finally {
+                finallyBlock()
+            }
+        }
+    }
+
+    private suspend fun <T> callResponse(
+        response: HttpResponse<T>?,
+        success: suspend CoroutineScope.() -> Unit,
+        error: suspend CoroutineScope.() -> Unit
+    ) {
+        coroutineScope {
+            when {
+                response == null -> error()
+                response.ResultCode == 200 -> success()
+                else -> error()
+            }
+        }
     }
 
     override fun onNewIntent(intent: Intent?) {

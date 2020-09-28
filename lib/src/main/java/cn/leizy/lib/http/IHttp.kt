@@ -15,6 +15,7 @@ interface IHttp {
         const val HOST: String = BuildConfig.APP_HOST
 
         const val LOGIN: String = "driver/login"
+        const val LOGIN2: String = "driver/login2"
     }
 
     fun initHttp(context: Application)

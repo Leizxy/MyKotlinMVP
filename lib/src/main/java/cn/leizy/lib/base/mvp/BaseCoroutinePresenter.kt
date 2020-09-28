@@ -8,7 +8,7 @@ import kotlin.coroutines.CoroutineContext
 /**
  * @author Created by wulei
  * @date 2020/9/28, 028
- * @description
+ * @description 可以考虑直接写到BasePresenter里面
  */
 abstract class BaseCoroutinePresenter<V, M> : BasePresenter<V, M>(), CoroutineScope {
     override val coroutineContext: CoroutineContext
