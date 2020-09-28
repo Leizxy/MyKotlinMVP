@@ -5,6 +5,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.WindowManager
+import androidx.annotation.CallSuper
 import androidx.annotation.IdRes
 import androidx.appcompat.app.AppCompatActivity
 import butterknife.ButterKnife
@@ -42,6 +43,7 @@ abstract class BaseActivity : AppCompatActivity() {
         initData()
     }
 
+    @CallSuper
     protected fun initData() {
 
     }

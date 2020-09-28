@@ -119,6 +119,7 @@ class MainActivity : BaseActivity(), CoroutineScope by MainScope() {
 //            Log.i("MainActivity", "await: ${await.IsSuccess}")
 //            tv.setText(await.OperationDesc)
         }
+
     }
 
     override fun onNewIntent(intent: Intent?) {
@@ -127,5 +128,10 @@ class MainActivity : BaseActivity(), CoroutineScope by MainScope() {
         Log.i("MainActivity", "onNewIntent: $l")
         interrupt = false
         Log.i("MainActivity", "onNewIntent: $interrupt")
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        GlobalScope.cancel()
     }
 }

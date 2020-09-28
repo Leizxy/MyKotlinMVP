@@ -2,6 +2,9 @@ package cn.leizy.lib.retrofit
 
 import cn.leizy.lib.http.IHttp
 import cn.leizy.lib.http.bean.HttpResponse
+import cn.leizy.lib.http.bean.LoginBean
+import cn.leizy.lib.http.bean.TestObj
+import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.Job
 import okhttp3.RequestBody
 import org.json.JSONObject
@@ -16,4 +19,6 @@ import retrofit2.http.POST
 interface SuspendInterface {
     @POST(IHttp.LOGIN)
     suspend fun login(@Body body: RequestBody): HttpResponse<JSONObject>
+    @POST(IHttp.LOGIN)
+    fun login2(@Body body: RequestBody): Deferred<HttpResponse<LoginBean>>
 }

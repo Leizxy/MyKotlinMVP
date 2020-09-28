@@ -23,6 +23,10 @@ class JTestMvpActivity : JBaseMvpActivity<JTestPresenter>(), TestContract.View {
         presenter.test()
     }
 
+    override fun show(str: String) {
+
+    }
+
     override fun getParams(key: Int): Map<String, Any> {
         val map: MutableMap<String, Any> = HashMap()
         map.put("int", 2)

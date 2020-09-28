@@ -24,6 +24,10 @@ class TestMvpActivity : BaseMvpActivity<TestPresenter>(), TestContract.View {
         tv.setOnClickListener { router("/app/jtestmvp").navigation() }
     }
 
+    override fun show(str: String) {
+
+    }
+
     override fun getParams(key: Int): Map<String, Any> {
         val map: MutableMap<String, Any> = HashMap()
         map.put("int", 1)

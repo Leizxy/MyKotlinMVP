@@ -1,6 +1,9 @@
 package com.leizy.demo.test
 
 import android.widget.TextView
+import cn.leizy.lib.http.bean.HttpResponse
+import cn.leizy.lib.http.bean.LoginBean
+import cn.leizy.lib.http.bean.TestObj
 
 /**
  * @author Created by wulei
@@ -10,6 +13,10 @@ import android.widget.TextView
 class TestModel : TestContract.Model {
     override fun test(): Int {
         return 1210
+    }
+
+    override suspend fun test2(params: MutableMap<String, Any>): HttpResponse<LoginBean>? {
+        return null
     }
 
     override fun getTag(): Any {

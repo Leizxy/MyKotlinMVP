@@ -2,9 +2,9 @@ package cn.leizy.lib.http.bean
 
 /**
  * @author Created by wulei
- * @date 2020/9/1, 001
+ * @date 2020/9/28, 028
  * @description
  */
-class TestObj {
-//    var str: String? = "n"
+class LoginBean {
+    var Token: String? = null
 }

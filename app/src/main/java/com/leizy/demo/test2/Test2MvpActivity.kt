@@ -1,5 +1,6 @@
 package com.leizy.demo.test2
 
+import android.util.Log
 import android.widget.TextView
 import cn.leizy.lib.base.mvp.BaseMvpActivity
 import com.alibaba.android.arouter.facade.annotation.Route
@@ -13,7 +14,7 @@ import kotterknife.bindView
  * @description
  */
 @Route(path = "/app/test2mvp", extras = 0)
-class Test2MvpActivity : BaseMvpActivity<TestContract.View, TestContract.Model, Test2Presenter>(),
+class Test2MvpActivity : BaseMvpActivity<TestContract.View, TestContract.Model, Test3Presenter>(),
     TestContract.View {
     private val tv: TextView by bindView(R.id.tv)
     override fun getLayoutId(): Int {
@@ -23,6 +24,11 @@ class Test2MvpActivity : BaseMvpActivity<TestContract.View, TestContract.Model, 
     override fun initViews() {
         presenter!!.test()
         tv.setOnClickListener { router("/app/jtestmvp").navigation() }
+    }
+
+    override fun show(str: String) {
+        Log.i("Test2MvpActivity", "show: ${Thread.currentThread().name}")
+        tv.text = str
     }
 
     override fun getParams(key: Int): Map<String, Any> {

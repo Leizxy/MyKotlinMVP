@@ -15,7 +15,7 @@ class Test2Presenter : BasePresenter<TestContract.View, TestContract.Model>(),
     TestContract.Presenter {
 
     override fun createModel(): TestContract.Model? {
-        return TestModel()
+        return TestModel2()
     }
 
     override fun test() {
