@@ -102,19 +102,19 @@ class MainActivity : BaseActivity(), CoroutineScope by MainScope() {
                 Consumer { Log.i("MainActivity", "throwable: ${it.message}") },
                 Action { Log.i("MainActivity", "action: ") }
             )*/
-//        router("/app/testmvp").navigation()
-//        return
+        router("/app/test2mvp").navigation()
+        return
 
-        GlobalScope.launch {
+/*        GlobalScope.launch {
             Log.i("MainActivity", "launch ${Thread.currentThread().name}")
             val login = SuspendApi.getService(SuspendInterface::class.java)
                 .login(RetrofitUtil.getRequestBody(params))
             Log.i("MainActivity", "launch ${login.IsSuccess}")
-        }
+        }*/
 
         Log.i("MainActivity", "click: ")
 
-        GlobalScope.launch(Dispatchers.Main) {
+/*        GlobalScope.launch(Dispatchers.Main) {
 //            Log.i("MainActivity", "await: ${Thread.currentThread().name}")
             tv.text = withContext(Dispatchers.IO) {
 //                Log.i("MainActivity", "await: ${Thread.currentThread().name}")
@@ -123,10 +123,10 @@ class MainActivity : BaseActivity(), CoroutineScope by MainScope() {
             }.OperationDesc
 //            Log.i("MainActivity", "await: ${await.IsSuccess}")
 //            tv.setText(await.OperationDesc)
-        }
+        }*/
 
 
-        coroutineScope.launch {
+/*        coroutineScope.launch {
             requestTryCatch({
                 Log.i("MainActivity", "click: start")
                 SuspendApi.getService(SuspendInterface::class.java)
@@ -140,7 +140,7 @@ class MainActivity : BaseActivity(), CoroutineScope by MainScope() {
             }, {
                 Log.i("MainActivity", "click: finally")
             })
-        }
+        }*/
     }
 
     val coroutineScope = CoroutineScope(Dispatchers.Main + Job())

@@ -13,26 +13,26 @@ import kotlin.jvm.Throws
  * @date 2019-11-16
  * @description 不太好用。
  */
-abstract class BasePresenter : IPresenter<IView, IModel> {
-    protected var view: IView? = null
-    protected var model: IModel? = null
+abstract class BasePresenter<V : IView, M : IModel> : IPresenter<V, M> {
+    protected var view: V? = null
+    protected var model: M? = null
     private var weakReference: WeakReference<IView>? = null
 
     protected val isViewAttached: Boolean = weakReference != null && weakReference?.get() != null
 
-    override fun <V : IView> attachView(view: V) {
+    override fun attachView(view: V) {
         weakReference = WeakReference(view)
         this.view = Proxy.newProxyInstance(
             view::class.java.classLoader,
             view::class.java.interfaces,
             MvpViewHandler(weakReference?.get()!!)
-        ) as IView
+        ) as V
         if (model == null) {
             model = createModel()
         }
     }
 
-    abstract fun createModel(): IModel
+    abstract fun createModel(): M
 
     override fun detachView() {
         model!!.cancelHttp()
@@ -42,7 +42,6 @@ abstract class BasePresenter : IPresenter<IView, IModel> {
             weakReference = null
         }
     }
-
 
     private inner class MvpViewHandler(private val mvpView: IView) :
         InvocationHandler {

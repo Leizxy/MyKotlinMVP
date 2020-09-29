@@ -2,6 +2,8 @@ package com.leizy.demo.test
 
 import android.util.Log
 import cn.leizy.lib.base.BasePresenter
+import cn.leizy.lib.base.mvp.IModel
+import cn.leizy.lib.base.mvp.IView
 import kotlinx.coroutines.*
 
 /**
@@ -9,7 +11,7 @@ import kotlinx.coroutines.*
  * @date 2020/9/22, 022
  * @description
  */
-class TestPresenter : BasePresenter(),
+class TestPresenter<V : IView, M : IModel> : BasePresenter<TestContract.View, TestContract.Model>(),
     TestContract.Presenter {
     override fun createModel(): TestContract.Model {
         return TestModel()

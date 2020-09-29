@@ -11,7 +11,7 @@ import java.lang.reflect.ParameterizedType
  * @date 2020/9/24, 024
  * @description
  */
-abstract class BaseMvpFragment<V, M, P : BasePresenter<V, M>> : BaseFragment(), IView {
+abstract class BaseMvpFragment<V, M, P : IPresenter<V, M>> : BaseFragment(), IView {
     protected var presenter: P? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         presenter = getPresenter()
@@ -21,7 +21,7 @@ abstract class BaseMvpFragment<V, M, P : BasePresenter<V, M>> : BaseFragment(), 
 
     override fun onDestroy() {
         super.onDestroy()
-        presenter!!.dettachView()
+        presenter!!.detachView()
     }
 
     @Suppress("UNCHECKED_CAST")

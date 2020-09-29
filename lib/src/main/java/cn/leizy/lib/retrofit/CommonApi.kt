@@ -11,7 +11,7 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
  * @date 2020/9/18, 018
  * @description
  */
-class CommonApi : NetWorkApi() {
+class CommonApi private constructor() : NetWorkApi() {
     companion object {
         @Volatile
         private var instance: CommonApi? = null

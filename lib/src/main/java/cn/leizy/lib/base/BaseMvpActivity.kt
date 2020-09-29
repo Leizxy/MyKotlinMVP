@@ -1,6 +1,8 @@
 package cn.leizy.lib.base
 
 import android.os.Bundle
+import cn.leizy.lib.base.mvp.IModel
+import cn.leizy.lib.base.mvp.IPresenter
 import cn.leizy.lib.base.mvp.IView
 import java.lang.Exception
 import java.lang.RuntimeException
@@ -11,12 +13,12 @@ import java.lang.reflect.ParameterizedType
  * @date 2019-11-18
  * @description 不太好用。建议使用java版的BaseMvpActivity别继承该类。
  */
-abstract class BaseMvpActivity<P : BasePresenter> : BaseActivity(), IView {
+abstract class BaseMvpActivity<P : IPresenter<out IView,out IModel>> : BaseActivity(), IView {
     protected var presenter: P? = getPresenter()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         presenter = getPresenter()
-        presenter?.attachView(this)
+        presenter?.attachView(this as Nothing)
     }
 
     override fun onDestroy() {

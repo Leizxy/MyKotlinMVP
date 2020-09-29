@@ -13,6 +13,7 @@ import cn.leizy.lib.tasks.InitARouter
 import cn.leizy.lib.util.ToastUtil
 import cn.leizy.lib.tasks.InitHttp
 import cn.leizy.lib.tasks.InitLeak
+import cn.leizy.lib.tasks.InitStetho
 import cn.leizy.lib.util.Timing
 import cn.leizy.net.base.IRequiredInfo
 import com.alibaba.android.arouter.launcher.ARouter
@@ -46,6 +47,7 @@ class App : Application(), Application.ActivityLifecycleCallbacks, IRequiredInfo
         dispatcher.addTask(InitHttp())
             .addTask(InitARouter())
             .addTask(InitLeak())
+            .addTask(InitStetho())
             .start()
         dispatcher.await()
         ToastUtil.init(this)

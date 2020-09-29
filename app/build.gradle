@@ -24,6 +24,8 @@ android {
         versionCode rootProject.ext.cfgs.versionCode
         versionName rootProject.ext.cfgs.versionName
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        multiDexEnabled true
     }
     buildTypes {
         release {

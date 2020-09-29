@@ -11,7 +11,7 @@ import retrofit2.CallAdapter
  * @date 2020/9/22, 022
  * @description
  */
-class SuspendApi : NetWorkApi() {
+class SuspendApi private constructor(): NetWorkApi() {
     companion object {
         @Volatile
         private var instance: SuspendApi? = null

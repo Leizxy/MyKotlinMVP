@@ -8,7 +8,7 @@ import cn.leizy.lib.base.mvp.IView
  * @date 2019-11-16
  * @description kotlin没有用此接口。
  */
-interface IPresenter<V : IView, M : IModel> {
-    fun <V : IView> attachView(view: V)
+interface IPresenter<V, M> {
+    fun attachView(view: V)
     fun detachView()
 }

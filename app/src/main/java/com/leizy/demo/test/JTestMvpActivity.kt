@@ -1,7 +1,6 @@
 package com.leizy.demo.test
 
 import android.widget.TextView
-import cn.leizy.lib.base.BaseMvpActivity
 import cn.leizy.lib.base.JBaseMvpActivity
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.leizy.demo.R

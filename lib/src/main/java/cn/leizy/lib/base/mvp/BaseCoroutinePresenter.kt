@@ -10,7 +10,7 @@ import kotlin.coroutines.CoroutineContext
  * @date 2020/9/28, 028
  * @description 可以考虑直接写到BasePresenter里面
  */
-abstract class BaseCoroutinePresenter<V, M> : BasePresenter<V, M>(), CoroutineScope {
+abstract class BaseCoroutinePresenter<V, M : IModel> : BasePresenter<V, M>(), CoroutineScope {
     override val coroutineContext: CoroutineContext
         get() = Dispatchers.Main + Job()
 
@@ -79,8 +79,8 @@ abstract class BaseCoroutinePresenter<V, M> : BasePresenter<V, M>(), CoroutineSc
         }
     }
 
-    override fun dettachView() {
-        super.dettachView()
+    override fun detachView() {
+        super.detachView()
         cancel(cause = CancellationException("${this::class.java} cancel"))
     }
 

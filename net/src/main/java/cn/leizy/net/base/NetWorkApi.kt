@@ -2,6 +2,7 @@ package cn.leizy.net.base
 
 import cn.leizy.net.interceptors.RequestInterceptor
 import cn.leizy.net.interceptors.ResponseInterceptor
+import com.facebook.stetho.okhttp3.StethoInterceptor
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -64,6 +65,7 @@ abstract class NetWorkApi {
                 val log = HttpLoggingInterceptor(MyLogger())
                 log.setLevel(HttpLoggingInterceptor.Level.BODY)
                 okHttpClientBuilder.addInterceptor(log)
+                okHttpClientBuilder.addNetworkInterceptor(StethoInterceptor())
             }
             okHttpClient = okHttpClientBuilder.build()
         }
