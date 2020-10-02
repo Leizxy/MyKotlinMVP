@@ -15,9 +15,6 @@ import com.leizy.demo.test.TestContract
  * @description
  */
 class TestModel2 : CoroutinesModel(), TestContract.Model {
-    override fun getTag(): Any {
-        return "model2"
-    }
 
     override fun test(): Int {
         val params: MutableMap<String, Any> = HashMap()

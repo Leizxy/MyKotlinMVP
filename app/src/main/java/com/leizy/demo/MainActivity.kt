@@ -197,6 +197,6 @@ class MainActivity : BaseActivity(), CoroutineScope by MainScope() {
 
     override fun onDestroy() {
         super.onDestroy()
-        GlobalScope.cancel()
+//        GlobalScope.cancel()
     }
 }

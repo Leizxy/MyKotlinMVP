@@ -18,12 +18,4 @@ class TestModel : TestContract.Model {
     override suspend fun test2(params: MutableMap<String, Any>): HttpResponse<LoginBean>? {
         return null
     }
-
-    override fun getTag(): Any {
-        return "tag_test"
-    }
-
-    override fun cancelHttp() {
-
-    }
 }

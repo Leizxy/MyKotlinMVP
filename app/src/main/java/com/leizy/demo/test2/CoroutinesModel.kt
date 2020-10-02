@@ -78,17 +78,4 @@ abstract class CoroutinesModel : IModel, CoroutineScope {
             }
         }
     }
-
-    override fun cancelHttp() {
-        launchManager.clear()
-        cancel(cause = CancellationException("cancel"))
-/*
-        if (launchManager.size != 0) {
-            for (job in launchManager) {
-                job.cancel(cause = CancellationException("cancel $job"))
-            }
-            launchManager.clear()
-        }
-*/
-    }
 }

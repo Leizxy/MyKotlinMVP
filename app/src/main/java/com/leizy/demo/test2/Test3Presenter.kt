@@ -26,6 +26,7 @@ class Test3Presenter : BaseCoroutinePresenter<TestContract.View, TestContract.Mo
         params["Regid"] = "13065ffa4e915b84c29"
         launchRequest(
             {
+                view!!.show("start")
                 model!!.test2(params)
             }, { bean: LoginBean? ->
                 Log.i("TestModel2", "test: ${bean!!.Token}")

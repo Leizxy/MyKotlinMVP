@@ -8,9 +8,11 @@ import kotlin.coroutines.CoroutineContext
 /**
  * @author Created by wulei
  * @date 2020/9/28, 028
- * @description 可以考虑直接写到BasePresenter里面
+ * @description 引入kotlin协程来进行耗时操作
+ * 可以考虑直接写到BasePresenter里面
  */
-abstract class BaseCoroutinePresenter<V, M : IModel> : BasePresenter<V, M>(), CoroutineScope {
+abstract class BaseCoroutinePresenter<V : IView, M : IModel> : BasePresenter<V, M>(),
+    CoroutineScope {
     override val coroutineContext: CoroutineContext
         get() = Dispatchers.Main + Job()
 

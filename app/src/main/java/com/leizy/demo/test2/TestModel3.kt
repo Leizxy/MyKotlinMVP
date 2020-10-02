@@ -15,12 +15,6 @@ import com.leizy.demo.test.TestContract
  * @description
  */
 class TestModel3 : TestContract.Model {
-    override fun getTag(): Any {
-        return "model2"
-    }
-
-    override fun cancelHttp() {
-    }
 
     override fun test(): Int {
         return 0

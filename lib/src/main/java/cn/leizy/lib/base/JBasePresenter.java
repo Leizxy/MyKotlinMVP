@@ -48,7 +48,6 @@ public abstract class JBasePresenter<V extends IView, M extends IModel> implemen
 
     @Override
     public void detachView() {
-        model.cancelHttp();
         this.model = null;
         if (isViewAttached()) {
             weakReference.clear();

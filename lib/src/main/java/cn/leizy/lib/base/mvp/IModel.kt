@@ -6,6 +6,6 @@ package cn.leizy.lib.base.mvp
  * @description
  */
 interface IModel {
-    fun getTag(): Any
-    fun cancelHttp()
+//    fun getTag(): Any
+//    fun cancelHttp()
 }

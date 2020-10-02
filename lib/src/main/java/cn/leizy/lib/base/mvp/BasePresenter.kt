@@ -3,6 +3,7 @@ package cn.leizy.lib.base.mvp
 import java.lang.ref.WeakReference
 import java.lang.reflect.InvocationHandler
 import java.lang.reflect.Method
+import java.lang.reflect.ParameterizedType
 import java.lang.reflect.Proxy
 
 /**
@@ -11,7 +12,7 @@ import java.lang.reflect.Proxy
  * @description
  */
 @Suppress("UNCHECKED_CAST")
-abstract class BasePresenter<V, M : IModel> : IPresenter<V, M> {
+abstract class BasePresenter<V : IView, M : IModel> : IPresenter<V, M> {
     protected var view: V? = null
     protected var model: M? = null
     private var weakReference: WeakReference<V>? = null
@@ -19,8 +20,8 @@ abstract class BasePresenter<V, M : IModel> : IPresenter<V, M> {
     override fun attachView(view: V) {
         weakReference = WeakReference(view)
         this.view = Proxy.newProxyInstance(
-            view!!::class.java.classLoader,
-            view!!::class.java.interfaces,
+            view::class.java.classLoader,
+            view::class.java.interfaces,
             MvpViewHandler(weakReference?.get()!!)
         ) as V
         if (this.model == null) {
@@ -30,8 +31,22 @@ abstract class BasePresenter<V, M : IModel> : IPresenter<V, M> {
 
     abstract fun createModel(): M?
 
+    @Suppress("UNCHECKED_CAST")
+    @JvmName("getModel1")
+    fun getModel(): M? {
+        val m: M
+        m = try {
+            val type =
+                this.javaClass.genericSuperclass as ParameterizedType?
+            val cls = type!!.actualTypeArguments[1] as Class<M>
+            cls.newInstance()
+        } catch (e: Exception) {
+            throw RuntimeException(e)
+        }
+        return m
+    }
+
     override fun detachView() {
-        model!!.cancelHttp()
         this.model = null
         if (isViewAttached) {
             weakReference!!.clear()
@@ -40,11 +55,12 @@ abstract class BasePresenter<V, M : IModel> : IPresenter<V, M> {
     }
 
     private inner class MvpViewHandler(private val mvpView: V) : InvocationHandler {
-        override fun invoke(proxy: Any, method: Method, args: Array<out Any>): Any? {
+        override fun invoke(proxy: Any, method: Method, args: Array<out Any>?): Any? {
             return if (isViewAttached) {
-                method.invoke(mvpView, args)
+                if (args != null)
+                    method.invoke(mvpView, *args)
+                else method.invoke(mvpView)
             } else null
         }
-
     }
 }

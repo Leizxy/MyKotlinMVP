@@ -35,7 +35,6 @@ abstract class BasePresenter<V : IView, M : IModel> : IPresenter<V, M> {
     abstract fun createModel(): M
 
     override fun detachView() {
-        model!!.cancelHttp()
         model = null
         if (isViewAttached) {
             weakReference!!.clear()
