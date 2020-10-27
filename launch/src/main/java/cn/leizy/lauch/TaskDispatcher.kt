@@ -198,12 +198,21 @@ class TaskDispatcher private constructor() {
         }
     }
 
+    private fun isAllTaskDone(): Boolean {
+        var done = true
+        for (task in allTasks) {
+            done = done and task.isFinished
+        }
+        DispatcherLog.i("allTaskDone $done")
+        return done
+    }
 
     companion object {
         private const val WAIT_TIME: Long = 10 * 1000
         private var isMainProcess: Boolean = false
         private var hasInit: Boolean = false
         private var context: Context? = null
+        private var dispatcher: TaskDispatcher? = null
 
         fun init(context: Context) {
             this.context = context
@@ -215,7 +224,8 @@ class TaskDispatcher private constructor() {
             if (!hasInit) {
                 throw RuntimeException("pls call ${TaskDispatcher::class.java.simpleName}.init first")
             }
-            return TaskDispatcher()
+            dispatcher = TaskDispatcher()
+            return dispatcher!!
         }
 
         fun getContext(): Context {
@@ -224,6 +234,10 @@ class TaskDispatcher private constructor() {
 
         fun isMainProcess(): Boolean {
             return isMainProcess
+        }
+
+        fun isAllDone(): Boolean {
+            return dispatcher!!.isAllTaskDone()
         }
 
     }

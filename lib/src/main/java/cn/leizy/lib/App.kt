@@ -54,6 +54,10 @@ class App : Application(), Application.ActivityLifecycleCallbacks, IRequiredInfo
         Timing.endRecord("App init")
     }
 
+    fun isInitDone(): Boolean {
+        return TaskDispatcher.isAllDone()
+    }
+
     override fun onTerminate() {
         super.onTerminate()
         ARouter.getInstance().destroy()

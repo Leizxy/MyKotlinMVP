@@ -7,6 +7,15 @@ package cn.leizy.lib.base.mvp
  */
 interface IView {
     /**
+     * 显示 loading
+     */
+    fun showLoading(){}
+
+    /**
+     * 隐藏 loading
+     */
+    fun hideLoading(){}
+    /**
      * @param key 请求错误的返回结果
      * @see cn.leizy.lib.http.HttpKeys
      * @return 返回请求的参数
