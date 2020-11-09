@@ -37,4 +37,11 @@ abstract class BaseMvpActivity<V, M, P : IPresenter<V, M>> : BaseActivity(), IVi
         }
         return p
     }
+
+    override fun showToast(str: String?) {
+
+    }
+
+    override fun showToast(stringId: Int) {
+    }
 }

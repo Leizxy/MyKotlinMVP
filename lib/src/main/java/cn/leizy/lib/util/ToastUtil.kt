@@ -24,6 +24,7 @@ class ToastUtil {
         private var isShow: Boolean = true
         private var toast: Toast? = null
         private var context: Context? = null
+        private var preShow: Long = 0
 
         fun init(context: Context) {
             this.context = context
@@ -33,6 +34,7 @@ class ToastUtil {
             if (!isShow && TextUtils.isEmpty(string)) {
                 return
             }
+            isShow = System.currentTimeMillis() - preShow < 3000
             Looper.prepare()
             when (toast) {
                 null -> toast =
@@ -41,6 +43,7 @@ class ToastUtil {
             }
             toast!!.show()
             Looper.loop()
+            preShow = System.currentTimeMillis()
         }
 
         @SuppressLint("ResourceType")

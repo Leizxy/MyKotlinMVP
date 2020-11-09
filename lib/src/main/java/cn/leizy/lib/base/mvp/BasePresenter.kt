@@ -1,5 +1,6 @@
 package cn.leizy.lib.base.mvp
 
+import androidx.annotation.CallSuper
 import java.lang.ref.WeakReference
 import java.lang.reflect.InvocationHandler
 import java.lang.reflect.Method
@@ -46,6 +47,7 @@ abstract class BasePresenter<V : IView, M : IModel> : IPresenter<V, M> {
         return m
     }
 
+    @CallSuper
     override fun detachView() {
         this.model = null
         if (isViewAttached) {

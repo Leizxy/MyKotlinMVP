@@ -1,7 +1,6 @@
 package cn.leizy.lib.retrofit
 
 import com.google.gson.Gson
-import okhttp3.MediaType
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody
 

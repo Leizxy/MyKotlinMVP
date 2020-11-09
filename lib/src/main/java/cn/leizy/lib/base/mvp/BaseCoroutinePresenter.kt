@@ -1,11 +1,12 @@
 package cn.leizy.lib.base.mvp
 
+import android.annotation.SuppressLint
 import android.util.Log
+import androidx.annotation.StringRes
 import cn.leizy.lib.http.bean.HttpResponse
 import cn.leizy.lib.util.ToastUtil
+import cn.leizy.lib.http.Exceptions
 import kotlinx.coroutines.*
-import java.net.ConnectException
-import java.net.SocketTimeoutException
 
 /**
  * @author Created by wulei
@@ -14,13 +15,22 @@ import java.net.SocketTimeoutException
  * 可以考虑直接写到BasePresenter里面
  */
 abstract class BaseCoroutinePresenter<V : IView, M : IModel> : BasePresenter<V, M>() {
-    /*override val coroutineContext: CoroutineContext
-        get() = Dispatchers.Main + Job()*/
+    /*    override val coroutineContext: CoroutineContext
+            get() = Dispatchers.Main + Job()*/
     private val presenterScope: CoroutineScope by lazy {
         CoroutineScope(Dispatchers.Main + Job())
     }
-
     private val jobs: MutableList<Job> = mutableListOf()
+
+    protected fun showToast(str: String?) {
+        view?.showToast(str)
+    }
+
+    @SuppressLint("SupportAnnotationUsage")
+    @StringRes
+    protected fun showToast(idRes: Int) {
+        view?.showToast(idRes)
+    }
 
     /**
      * @param tryBlock 传入请求的代码块
@@ -33,14 +43,21 @@ abstract class BaseCoroutinePresenter<V : IView, M : IModel> : BasePresenter<V, 
         tryBlock: suspend CoroutineScope.() -> HttpResponse<T>?,
         successBlock: suspend CoroutineScope.(T?) -> Unit,
         failBlock: (suspend CoroutineScope.(String?) -> Unit) = {
-            launch { ToastUtil.showToast(string = it) }
+            launch {
+                if (showTips) {
+                    showToast(it)
+                }
+            }
         },
         finallyBlock: (suspend CoroutineScope.() -> Unit)? = null,
-        isChain: Boolean = false
+        isChain: Boolean = false,
+        showTips: Boolean = true
     ) {
-        view?.showLoading()
+        if (showTips) {
+            view?.showLoading()
+        }
         launchMain {
-            tryCatch(tryBlock, successBlock, failBlock, finallyBlock, isChain)
+            tryCatch(tryBlock, successBlock, failBlock, finallyBlock, isChain, showTips)
         }
     }
 
@@ -50,8 +67,6 @@ abstract class BaseCoroutinePresenter<V : IView, M : IModel> : BasePresenter<V, 
 
     fun launchOnIO(block: suspend CoroutineScope.() -> Unit) =
         addJob(presenterScope.launch(Dispatchers.IO) {
-            //            Log.i(this@BaseCoroutinePresenter.javaClass.simpleName, "launchOnUI thread: ${Thread.currentThread().name}")
-            //            Log.i(this@BaseCoroutinePresenter.javaClass.simpleName, "launchOnUI thread: ${Thread.currentThread().id}")
             block()
         })
 
@@ -61,47 +76,36 @@ abstract class BaseCoroutinePresenter<V : IView, M : IModel> : BasePresenter<V, 
     private fun addJob(job: Job) {
         jobs.add(job)
         job.invokeOnCompletion {
-            Log.i("BaseCoroutinePresenter", "addJob: remove ${job.key}")
             jobs.remove(job)
         }
     }
 
-    open fun blocking(block: suspend CoroutineScope.() -> Unit) = runBlocking(Dispatchers.IO) { block() }
+    open fun blocking(block: suspend CoroutineScope.() -> Unit) =
+        runBlocking(Dispatchers.IO) { block() }
 
     private suspend fun <T> tryCatch(
         tryBlock: suspend CoroutineScope.() -> HttpResponse<T>?,
         successBlock: suspend CoroutineScope.(T?) -> Unit,
         failBlock: (suspend CoroutineScope.(String?) -> Unit),
         finallyBlock: (suspend CoroutineScope.() -> Unit)? = null,
-        isChain: Boolean
+        isChain: Boolean,
+        showTips: Boolean
     ) {
         coroutineScope {
             try {
-                var response = tryBlock()
+                val response = tryBlock()
                 callResponse(response, {
                     successBlock(response?.Result)
-                }, { failBlock(response?.OperationDesc) })
+                }, {
+                    failBlock(response?.OperationDesc)
+                    if (isChain) view?.hideLoading()
+                    if (showTips) showToast(response?.OperationDesc)
+                })
             } catch (e: Throwable) {
-                // TODO: 2020/10/26, 026 可以加入一个handle处理类
-//                ExceptionHandler.handleException(e)
-                /*when (e) {
-                    is SocketTimeoutException -> {
-                        if (!BuildConfig.DEBUG) {
-                            ToastUtil.show(BaseApplication.getApplication(), e.message)
-                        } else {
-                            ToastUtil.show(BaseApplication.getApplication(), R.string.connect_time_out)
-                        }
-                    }
-                    is ConnectException -> {
-                        if (!BuildConfig.DEBUG) {
-                            ToastUtil.show(BaseApplication.getApplication(), e.message)
-                        } else {
-                            ToastUtil.show(BaseApplication.getApplication(), R.string.connect_time_fail)
-                        }
-                    }
-                    else -> ToastUtil.show(BaseApplication.getApplication(), e.message)
-                }*/
+                Exceptions.handleException(e)
                 failBlock(e.message)
+                if (isChain) view?.hideLoading()
+                if (showTips) showToast(e.message)
             } finally {
                 finallyBlock?.let {
                     it()
@@ -121,8 +125,7 @@ abstract class BaseCoroutinePresenter<V : IView, M : IModel> : BasePresenter<V, 
     ) {
         coroutineScope {
             when {
-                response == null -> failBlock()
-                response.ResultCode == 200 -> successBlock()
+                response?.ResultCode == 200 -> successBlock()
                 else -> failBlock()
             }
         }
@@ -130,7 +133,6 @@ abstract class BaseCoroutinePresenter<V : IView, M : IModel> : BasePresenter<V, 
 
     override fun detachView() {
         super.detachView()
-        Log.i("BaseCoroutinePresenter", "detachView: " + jobs.size)
         if (jobs.size > 0) {
             for (job in jobs) {
                 job.cancel()
